@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>BTN</title>
+	</head>
+	<style>
+		@keyframes rotate {
+			from {
+				rotate: 0;
+			}
+			to {
+				rotate: 360deg;
+			}
+		}
+
+		@keyframes rotate-back {
+			from {
+				rotate: 0;
+			}
+			to {
+				rotate: -360deg;
+			}
+		}
+
+		@keyframes appear{
+			from {
+				animation-timing-function: ease;
+			}
+			50% {
+				opacity: 1;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+		@keyframes disappear{
+			from {
+				animation-timing-function: ease;
+			}
+			50% {
+				opacity: 0;
+			}
+			to {
+				opacity: 0;
+			}
+		}
+
+		.btn {
+			border-radius: 50%;
+			border: 2px solid #eae9c1;
+			background: rgba(0, 0, 0, 0.2);
+			width: 70px;
+			height: 70px;
+			cursor: pointer;
+			padding: 0;
+			margin: 0;
+
+			display: grid;
+  			grid-template-columns: 1fr 1fr 20% 30% 20% 1fr 1fr;
+  			grid-template-rows: 1fr 1fr 20% 30% 20% 1fr 1fr;
+		}
+
+		.rot-1, .rot-2 {
+			border-radius: 50%;
+			border: 3px solid;
+		}
+		.rot-1 {
+			animation: rotate infinite 2000ms ease;
+			animation-fill-mode: forwards;
+    		border-color: #eae9c1 transparent #eae9c1 transparent;
+			grid-row: 3 / 6;
+			grid-column: 3 / 6;
+			opacity: 0;
+		}
+		.rot-2 {
+			animation: rotate-back infinite 2000ms ease;
+			animation-fill-mode: forwards;
+    		border-color: transparent #eae9c1 transparent #eae9c1;
+			grid-row: 4 / 5;
+			grid-column: 4 / 5;
+			opacity: 0;
+		}
+		.rot-3 {
+			animation-fill-mode: forwards;
+			background-image: url('web/imgs/warning.svg');
+			grid-row: 2 / 7;
+			grid-column: 2 / 7;
+			opacity: 0;
+		}
+		.rot-4 {
+			animation-fill-mode: forwards;
+			background-image: url('web/imgs/login.svg');
+			grid-row: 3 / 6;
+			grid-column: 3 / 6;
+		}
+		.login-form {
+			color: #eae9c1;
+			width: 400px;
+			padding: 1em;
+			background: rgba(0, 0, 0, 0.03);
+			border-radius: 1em;
+
+			flex-direction: column;
+		}
+		.form-item {
+			display: flex;
+			justify-content: center;
+			margin-bottom: 1em;
+		}
+		.input {
+			border: 1px solid;
+			border-color: transparent transparent #eae9c1 transparent;
+			color: #eae9c1;
+			background: none;
+			width: 200px;
+		}
+		.input-label {
+			border: 1px solid transparent;
+			font-weight: 600;
+			text-align: end;
+			width: 50px;
+		}
+		.input, .input-label {
+			font-family: Calibri;
+			font-size: 1.5em;
+			padding: 5px;
+		}
+		.input:focus {
+			outline: none;
+			background: rgba(0, 0, 0, 0.1);
+		}
+		.input:hover {
+			background: rgba(0, 0, 0, 0.1);
+		}
+		.title {
+			font-size: 2em;
+		}
+		body {
+			font-family: Calibri;
+  			position: fixed;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			background: #1f356e;
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	</style>
+
+	<body>
+		<form class="login-form">
+			<div class="form-item">
+				<div class="title">Log In</div>
+			</div>
+			<div class="form-item">
+				<label for="tg-input" class="input-label">TG:</label>
+				<input id="tg-input" type="text" class="input" required>
+			</div>
+			<div class="form-item">
+				<label for="pw-input" class="input-label" >PW:</label>
+				<input id="pw-input" type="password" class="input" required>
+			</div>
+			<div class="form-item" style="margin-bottom: 0;">
+				<button type="submit" class="btn">
+					<div id="login_loading_large" class="rot-1" hidden></div>
+					<div id="login_loading_small" class="rot-2" hidden></div>
+					<div id="warning_img" class="rot-3" hidden></div>
+					<div id="login_img" class="rot-4"></div>
+				</button>
+			</div>
+		</form>
+	</body>
+
+	<script>
+		let elem = document.querySelector(".btn");
+		elem.addEventListener("click", click);
+		let submit_ready = true;
+
+		async function loading(state, delay) {
+			if (state) {
+				document.querySelector("#login_loading_large").hidden = false;
+				document.querySelector("#login_loading_small").hidden = false;
+				document.querySelector("#login_loading_large").style.animation = "rotate infinite 2000ms, appear " + String(2 * delay) + "ms 1";
+				document.querySelector("#login_loading_small").style.animation = "rotate-back infinite 2000ms, appear " + String(2 * delay) + "ms 1";
+				setTimeout(() => {
+					document.querySelector("#login_loading_large").style.opacity = "1";
+					document.querySelector("#login_loading_small").style.opacity = "1";
+					document.querySelector("#login_loading_large").style.animation = "rotate infinite 2000ms";
+					document.querySelector("#login_loading_small").style.animation = "rotate-back infinite 2000ms";
+				}, delay);
+			}
+			else {
+				document.querySelector("#login_loading_large").style.animation = "rotate infinite 2000ms, disappear " + String(2 * delay) + "ms 1";
+				document.querySelector("#login_loading_small").style.animation = "rotate-back infinite 2000ms, disappear " + String(2 * delay) + "ms 1";
+				setTimeout(() => {
+					document.querySelector("#login_loading_large").style.opacity = "0";
+					document.querySelector("#login_loading_small").style.opacity = "0";
+					document.querySelector("#login_loading_large").hidden = true;
+					document.querySelector("#login_loading_small").hidden = true;
+				}, delay);
+			}
+		}
+
+		async function state(elem, state, delay){
+			if (state) {
+				elem.hidden = false;
+				elem.style.animation = "appear " + String(2 * delay) + "ms 1";
+				setTimeout(() => {
+					elem.style.opacity = "1";
+					elem.style.animation = "";
+				}, delay);
+			}
+			else {
+				elem.style.animation = "disappear " + String(2 * delay) + "ms 1";
+				setTimeout(() => {
+					elem.style.opacity = "0";
+					elem.hidden = true;
+				}, delay);
+			}
+		}
+
+		async function click() {
+			let login_elem = document.querySelector("#login_img");
+			let warning_elem = document.querySelector("#warning_img");
+			if (!elem.disabled) {
+				elem.disabled = true;
+				await state(login_elem, false, 1000);
+				await loading(true, 1000);
+				setTimeout(async () => {
+					await loading(false, 1000);
+					await state(warning_elem, true, 1000);
+					setTimeout(async () => {
+						await state(warning_elem, false, 1000);
+						await state(login_elem, true, 1000);
+						setTimeout(() => {
+							elem.disabled = false;
+						}, 1000);
+					}, 3000);
+				}, 6000);
+			}
+			else {
+				console.warn(elem.disabled);
+			}
+		}
+	</script>
+</html>
