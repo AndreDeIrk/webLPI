@@ -1,0 +1,58 @@
+@import '../colors';
+
+.btn-submit {
+  border-radius: 50%;
+  border: 2px solid $main-light;
+  background: rgba(0, 0, 0, 0.2);
+  //width: 70px;
+  //height: 70px;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+
+  display: grid;
+  grid-template-columns: 1fr 50% 1fr;
+  grid-template-rows: 1fr 50% 1fr;
+}
+
+.spinner {
+  animation: rotate 2s linear infinite;
+}
+
+.btn-img {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+}
+
+.path {
+  stroke: $main-light;
+  stroke-linecap: round;
+  stroke-dasharray: 90, 150;
+  stroke-dashoffset: -100;
+  stroke-width: 7px;
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  from {
+    rotate: 0;
+  }
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes dash {
+  from {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  to {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
+  }
+}
