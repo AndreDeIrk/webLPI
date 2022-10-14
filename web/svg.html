@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>BTN</title>
+	</head>
+	<style>
+		@keyframes rotate {
+			from {
+				rotate: 0;
+			}
+			to {
+				rotate: 360deg;
+			}
+		}
+		@keyframes appear {
+			from {
+				stroke-dasharray: 1, 150;
+				stroke-dashoffset: 0;
+				fill:transparent;
+		    }
+		    80% {
+				stroke-dasharray: 125, 150;
+				stroke-dashoffset: 0;
+				fill:transparent;
+		    }
+			to {
+				fill: white;
+			}
+		}
+		@keyframes dash {
+		    from {
+				stroke-dasharray: 1, 150;
+				stroke-dashoffset: 0;
+		    }
+		    50% {
+				stroke-dasharray: 90, 150;
+				stroke-dashoffset: -35;
+		    }
+		    to {
+				stroke-dasharray: 90, 150;
+				stroke-dashoffset: -124;
+		    }
+		}
+		.btn {
+			border-radius: 50%;
+			/*border: 2px solid white;*/
+			border: none;
+			background: rgba(0, 0, 0, 0.1);
+			width: 70px;
+			height: 70px;
+			cursor: pointer;
+			padding: 0;
+			margin: 0;
+			display: grid;
+			grid-template-columns: 1fr 5% 50% 5% 1fr;
+			grid-template-rows: 1fr 5% 50% 5% 1fr;
+		}
+		.rot {
+			/*animation: rotate infinite 2000ms;*/
+			grid-column: 3 / 4;
+			grid-row: 3 / 4;
+		}
+		.spinner {
+		    animation: rotate 2s linear infinite;
+			rotate: 0;
+		    /*width: 50px;*/
+		    /*height: 50px;*/
+		}
+
+	    .path {
+			stroke: white;
+			stroke-linecap: round;
+			stroke-dasharray: 90, 150;
+			stroke-dashoffset: -100;
+			/*animation: dash 1.5s ease-in-out infinite;*/
+	    }
+		.sign {
+			stroke: white;
+			stroke-linecap: round;
+			/*stroke-dasharray: 90, 150;*/
+			/*stroke-dashoffset: -100;*/
+			animation: appear 2s ease-in-out 2;
+			animation-fill-mode: forwards;
+	    }
+		body {
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			background: #1f356e;
+		}
+	</style>
+
+	<body>
+		<div>
+			<button type="button" class="btn">
+				<div class="rot">
+					<svg class="spinner" viewBox="0 0 50 50">
+<!--					    <circle class="path"-->
+<!--								cx="25"-->
+<!--								cy="25"-->
+<!--								r="20"-->
+<!--								fill="transparent"-->
+<!--								stroke-width="7">-->
+<!--						</circle>-->
+						<circle class="path"
+								cx="25"
+								cy="25"
+								r="20"
+								fill="transparent"
+								stroke-width="7">
+						</circle>
+					</svg>
+				</div>
+<!--				<div class="rot z2"></div>-->
+<!--				<div class="rot z3"></div>-->
+<!--				<div class="rot z4"></div>-->
+			</button>
+		</div>
+	</body>
+
+	<script>
+		let elem = document.querySelector(".btn");
+		elem.addEventListener("click", click);
+
+		function click() {
+			document.querySelector(".spinner").style.animationPlayState ="paused";
+			console.log(document.querySelector(".spinner").style);
+		}
+	</script>
+</html>
