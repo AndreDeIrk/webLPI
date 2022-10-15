@@ -1,20 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/elements/buttons.scss';
-import login from '../../imgs/login.svg';
+import LoginImg from '../../imgs/login.svg';
 
-export function ButtonSubmit(props) {
-    return (
-        <button type="submit"
-                className="btn-submit"
-                style={{width: props.width, height: props.height}}>
-            {/*<svg className="spinner btn-img" viewBox="0 0 50 50">*/}
-            {/*    <circle className="path"*/}
-            {/*            cx="25"*/}
-            {/*            cy="25"*/}
-            {/*            r="20"*/}
-            {/*            fill="transparent">*/}
-            {/*    </circle>*/}
-            {/*</svg>*/}
-            <img className='btn-img' src={login} />
-        </button>
-)}
+export class ButtonSubmit extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            state: "login"
+        }
+        this.switchLoading= this.switchLoading.bind(this);
+    }
+
+    switchLoading(state : string) {
+        this.setState({state: state});
+    }
+
+    render() {
+        return (
+            <div className={this.props.className}
+                 style={{
+                     display: "flex",
+                     justifyContent: "center",
+                     height: this.props.size,
+                 }}>
+                <button type="button"
+                        className={"btn-submit"}
+                        style={{width: this.props.size, height: this.props.size}}
+                        onClick={this.props.onclick}>
+                    <div className={'btn-img' + (this.state.state !== 'loading' ? " hidden" : "")}>
+                        <svg className="spinner" viewBox="0 0 50 50">
+                            <circle className="path"
+                                    cx="25"
+                                    cy="25"
+                                    r="20"
+                                    fill="transparent">
+                            </circle>
+                        </svg>
+                    </div>
+                    <img className={'btn-img' + (this.state.state !== 'login' ? " hidden" : "")}
+                         src={LoginImg} />
+                </button>
+            </div>
+        )
+    }
+}

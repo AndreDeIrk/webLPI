@@ -1,5 +1,14 @@
 @import './colors';
 
+@keyframes rotate {
+  from {
+    rotate: 0;
+  }
+  to {
+    rotate: 360deg;
+  }
+}
+
 .body {
   font-family: Calibri;
   position: fixed;
@@ -14,15 +23,33 @@
   justify-content: center;
 }
 
-.login-form {
-  color: $main-light;
+.login-box {
   width: 400px;
-  padding: 1em;
+  overflow: hidden;
   background: rgba(0, 0, 0, 0.03);
   border-radius: 1em;
-
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
 }
+
+.login-form {
+  color: $main-light;
+  padding: 1em;
+  width: calc(100% - 2em);
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+  transition: all 0.7s ease-in-out;
+
+  &.hide-left {
+    transform: translate(-150%, 0);
+  }
+
+  &.hide-right {
+    transform: translate(150%, 0);
+  }
+}
+
 .form-item {
   display: flex;
   justify-content: center;
@@ -30,13 +57,39 @@
   &.last {
     margin-bottom: 0;
   }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    margin-bottom: 1em;
+
+    &.last {
+      margin-bottom: 0;
+    }
+
+    @for $i from 1 through 4 {
+      & > .center-#{$i} {
+        grid-column: #{7 - $i} / #{7 + $i};
+      }
+      & > .left-#{$i} {
+        grid-column: 1 / #{1 + $i};
+      }
+      & > .right-#{$i} {
+        grid-column: #{13 - $i} / 13;
+      }
+    }
+  }
 }
-.form-input {
-  border: 1px solid;
-  border-color: transparent transparent $main-light transparent;
+
+.input {
+  border: $main-light 2px solid;
+  //border-color: transparent transparent $main-light transparent;
+  border-radius: 5px;
   color: $main-light;
   background: none;
-  width: 200px;
+  width: 250px;
+  transition: all 0.3s ease-in-out;
+  text-align: center;
 
   &:focus {
     outline: none;
@@ -47,21 +100,75 @@
     background: rgba(0, 0, 0, 0.1);
   }
 
-  //&:invalid {
-  //  background: rgba(255, 0, 0, 0.3);
-  //}
+  &::placeholder {
+    color: $main-light;
+    font-weight: 300;
+    font-size: 0.7em;
+  }
 }
-.form-input-label {
-  border: 1px solid transparent;
+.input-label {
+  border: 2px solid transparent;
   font-weight: 600;
   text-align: end;
   width: 50px;
 }
-.form-input, .form-input-label {
+.input, .input-label {
   font-family: Calibri;
   font-size: 1.5em;
   padding: 5px;
 }
+
+.input-gp {
+  border: $main-light 2px solid;
+  border-radius: 7px;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 1fr;
+
+  & > .input-label {
+    background-color: $main-light;
+    color: $main-blue;
+  }
+
+  & > .input, & > .input-label {
+    border: transparent 2px solid;
+    transition: transform 0.7s ease-in-out;
+    grid-row: 1 / 2;
+    grid-column-start: 1;
+  }
+
+  & > .hide-top {
+    transform: translate(0, -60px);
+  }
+  & > .hide-bottom {
+    transform: translate(0, 60px);
+  }
+}
+
 .form-title {
   font-size: 2em;
+}
+
+.spinner-img {
+  opacity: 0.2;
+  z-index: 3;
+  position: absolute;
+  right: -12.5%;
+  top: -12.5%;
+  animation: rotate 15s linear infinite;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: $main-light;
+  font-size: 1em;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+
+  &:hover {
+    color: rgba($main-light, 0.7);
+  }
 }

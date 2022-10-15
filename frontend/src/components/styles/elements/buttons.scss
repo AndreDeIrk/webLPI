@@ -1,9 +1,9 @@
 @import '../colors';
 
 .btn-submit {
-  border-radius: 50%;
+  border-radius: 7px;
   border: 2px solid $main-light;
-  background: rgba(0, 0, 0, 0.2);
+  background: transparent;
   //width: 70px;
   //height: 70px;
   cursor: pointer;
@@ -11,8 +11,14 @@
   margin: 0;
 
   display: grid;
-  grid-template-columns: 1fr 50% 1fr;
-  grid-template-rows: 1fr 50% 1fr;
+  grid-template-columns: 1fr 70% 1fr;
+  grid-template-rows: 1fr 70% 1fr;
+
+  transition: all 0.1s ease-in-out;
+
+  &:hover {
+    background: rgba($main-light, 0.2);
+  }
 }
 
 .spinner {
@@ -22,6 +28,10 @@
 .btn-img {
   grid-column: 2 / 3;
   grid-row: 2 / 3;
+
+  &.hidden {
+    display: none;
+  }
 }
 
 .path {
@@ -29,8 +39,8 @@
   stroke-linecap: round;
   stroke-dasharray: 90, 150;
   stroke-dashoffset: -100;
-  stroke-width: 7px;
-  animation: dash 1.5s ease-in-out infinite;
+  stroke-width: 5px;
+  animation: dash 2s ease-in-out infinite;
 }
 
 @keyframes rotate {
