@@ -23,6 +23,7 @@
       background: rgba($main-light, 0.2);
       &:disabled {
         background: transparent;
+        cursor: inherit;
       }
     }
 

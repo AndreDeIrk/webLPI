@@ -125,6 +125,7 @@
   overflow: hidden;
   display: grid;
   grid-template-rows: 1fr;
+  transition: border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
 
   & > .input-label {
     background-color: $main-light;
@@ -142,6 +143,10 @@
   }
   & > .hide-bottom {
     transform: translate(0, 60px);
+  }
+  &.warning {
+    border-color: $red;
+    background-color: rgba($red, 0.1);
   }
 }
 

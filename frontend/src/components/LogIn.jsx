@@ -9,13 +9,16 @@ class LogIn extends React.Component {
         this.state = {
             isSignIn: true,
             isInputTg: true,
-            loginState: 'warning',
+            loginState: 'login',
+            usernameEmpty: true,
+            passwordEmpty: false,
         }
-        this.hideForm = this.hideForm.bind(this);
+        this.switchForm = this.switchForm.bind(this);
         this.submitForm = this.submitForm.bind(this);
     }
 
-    hideForm() {
+    switchForm(event) {
+        event.preventDefault();
         this.setState({isSignIn: !this.state.isSignIn});
     }
 
@@ -35,7 +38,7 @@ class LogIn extends React.Component {
                             <div className="form-title">Sign In</div>
                         </div>
                         <div className="form-item">
-                            <div className={'input-gp'}>
+                            <div className={'input-gp' + (this.state.usernameEmpty ? ' warning' : "")}>
                                 {/*<label htmlFor="tg-input" className={"input-label"}>TG:</label>*/}
                                 <input name="username"
                                        id="tg-input"
@@ -45,7 +48,7 @@ class LogIn extends React.Component {
                             </div>
                         </div>
                         <div className="form-item">
-                            <div className={'input-gp'}>
+                            <div className={'input-gp' + (this.state.passwordEmpty ? ' warning' : "")}>
                                 <input name="password"
                                        id="pw-input"
                                        type="password"
@@ -61,10 +64,7 @@ class LogIn extends React.Component {
                                     className={'center-1'}/>
                             <button className={'btn-link right-3'}
                                     onClick={(e) => {
-                                        e.preventDefault();
-                                        this.setState({
-                                            isSignIn: false
-                                        });
+                                        this.switchForm(e);
                                     }}>
                                 Sign Up
                             </button>
@@ -105,11 +105,7 @@ class LogIn extends React.Component {
                         <div className="form-item last">
                             <button className={'btn-link right-3'}
                                     onClick={(e) => {
-                                        e.preventDefault();
-                                        this.setState({
-                                            isSignIn: true,
-                                            isInputTg: true,
-                                        });
+                                        this.switchForm(e);
                                     }}>
                                 Sign In
                             </button>
