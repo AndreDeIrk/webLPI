@@ -1,46 +1,49 @@
 @import '../colors';
+@import '../vars';
 
-.btn-submit {
-  border-radius: 7px;
-  border: 2px solid $main-light;
-  background: transparent;
-  //width: 70px;
-  //height: 70px;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
+.btn-block {
+   display: flex;
+   justify-content: center;
 
-  display: grid;
-  grid-template-columns: 1fr 70% 1fr;
-  grid-template-rows: 1fr 70% 1fr;
+  & > button {
+    border: $block-border;
+    border-radius: $block-radius;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
 
-  transition: all 0.1s ease-in-out;
+    display: grid;
+    grid-template-columns: 1fr 70% 1fr;
+    grid-template-rows: 1fr 70% 1fr;
 
-  &:hover {
-    background: rgba($main-light, 0.2);
+    transition: $transition-hover;
+
+    &:hover {
+      background: rgba($main-light, 0.2);
+      &:disabled {
+        background: transparent;
+      }
+    }
+
+    & > .btn-img {
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+    }
   }
 }
 
 .spinner {
   animation: rotate 2s linear infinite;
-}
 
-.btn-img {
-  grid-column: 2 / 3;
-  grid-row: 2 / 3;
-
-  &.hidden {
-    display: none;
+  & > .path {
+    stroke: $main-light;
+    stroke-linecap: round;
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -100;
+    stroke-width: 5px;
+    animation: dash 2s ease-in-out infinite;
   }
-}
-
-.path {
-  stroke: $main-light;
-  stroke-linecap: round;
-  stroke-dasharray: 90, 150;
-  stroke-dashoffset: -100;
-  stroke-width: 5px;
-  animation: dash 2s ease-in-out infinite;
 }
 
 @keyframes rotate {

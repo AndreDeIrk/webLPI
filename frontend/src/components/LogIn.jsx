@@ -1,6 +1,6 @@
 import React from "react";
 import './styles/global.scss';
-import { ButtonSubmit } from "./elements/Buttons";
+import { Button } from "./elements/Buttons";
 // import Gear from "../imgs/gear.svg"
 
 class LogIn extends React.Component {
@@ -9,12 +9,21 @@ class LogIn extends React.Component {
         this.state = {
             isSignIn: true,
             isInputTg: true,
+            loginState: 'warning',
         }
         this.hideForm = this.hideForm.bind(this);
+        this.submitForm = this.submitForm.bind(this);
     }
 
     hideForm() {
         this.setState({isSignIn: !this.state.isSignIn});
+    }
+
+    submitForm(event) {
+        event.preventDefault();
+        console.log('hey');
+        // console.log('Login: ' + event.target.username);
+        // console.log('Password: ' + event.target.password);
     }
 
     render() {
@@ -28,7 +37,7 @@ class LogIn extends React.Component {
                         <div className="form-item">
                             <div className={'input-gp'}>
                                 {/*<label htmlFor="tg-input" className={"input-label"}>TG:</label>*/}
-                                <input name="userTg"
+                                <input name="username"
                                        id="tg-input"
                                        type="text"
                                        className={"input"}
@@ -37,7 +46,7 @@ class LogIn extends React.Component {
                         </div>
                         <div className="form-item">
                             <div className={'input-gp'}>
-                                <input name="userPw"
+                                <input name="password"
                                        id="pw-input"
                                        type="password"
                                        className="input"
@@ -45,8 +54,11 @@ class LogIn extends React.Component {
                             </div>
                         </div>
                         <div className="form-item__grid last">
-                            <ButtonSubmit size={'47px'}
-                                          className={'center-1'}/>
+                            <Button size={'47px'}
+                                    type={'submit'}
+                                    state={this.state.loginState}
+                                    onClick={(e) => {console.log(e);}}
+                                    className={'center-1'}/>
                             <button className={'btn-link right-3'}
                                     onClick={(e) => {
                                         e.preventDefault();
@@ -65,12 +77,13 @@ class LogIn extends React.Component {
                         </div>
                         <div className="form-item">
                             <div className={'input-gp'}>
-                                <input name="userTg-new"
+                                <input name="newUsername"
                                        id="tg-input-new"
                                        type="text"
                                        className={"input" + (!this.state.isInputTg ? " hide-top" : "")}
                                        placeholder={'Telegram'}/>
                                 <input id="code"
+                                       name="code"
                                        type="text"
                                        value={'0 1 2 3'}
                                        className={"input" + (this.state.isInputTg ? " hide-bottom" : "")}

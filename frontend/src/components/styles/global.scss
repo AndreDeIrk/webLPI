@@ -1,4 +1,5 @@
 @import './colors';
+@import './vars';
 
 @keyframes rotate {
   from {
@@ -39,7 +40,7 @@
   width: calc(100% - 2em);
   grid-column: 1 / 2;
   grid-row: 1 / 2;
-  transition: all 0.7s ease-in-out;
+  transition: $transition-transform;
 
   &.hide-left {
     transform: translate(-150%, 0);
@@ -86,9 +87,9 @@
   //border-color: transparent transparent $main-light transparent;
   border-radius: 5px;
   color: $main-light;
-  background: none;
+  background: transparent;
   width: 250px;
-  transition: all 0.3s ease-in-out;
+  transition: $transition-hover, $transition-transform;
   text-align: center;
 
   &:focus {
@@ -132,7 +133,6 @@
 
   & > .input, & > .input-label {
     border: transparent 2px solid;
-    transition: transform 0.7s ease-in-out;
     grid-row: 1 / 2;
     grid-column-start: 1;
   }
