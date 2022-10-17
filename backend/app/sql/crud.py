@@ -1,6 +1,13 @@
 from sqlalchemy.orm import Session
+import hashlib
 
 from . import models, schemas
+
+
+def hash_password(password: str):
+    hashed_password = hashlib.md5(bytes('hello', encoding='utf-8'))
+    hashed_password.update(bytes(password, encoding='utf-8'))
+    return hashed_password.hexdigest()
 
 
 def get_user(db: Session, user_id: int):
@@ -12,8 +19,7 @@ def get_user_by_telegram(db: Session, telegram: str):
 
 
 def create_user(db: Session, user: schemas.UserCreate):
-    fake_hashed_password = user.password + "notreallyhashed"
-    db_user = models.User(telegram=user.telegram, hashed_password=fake_hashed_password)
+    db_user = models.User(telegram=user.telegram, hashed_password=hash_password(user.password))
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -22,4 +28,6 @@ def create_user(db: Session, user: schemas.UserCreate):
 
 def check_password(db: Session, telegram: str, password: str):
     user = get_user_by_telegram(db, telegram)
-    return password == user.hashed_password
+    if user:
+        return hash_password(password) == user.hashed_password
+    return False

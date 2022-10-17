@@ -4,9 +4,9 @@ from app.model import UserLoginSchema, UserSchema
 from app.auth.auth_handler import sign_jwt
 from app.auth.auth_bearer import JWTBearer
 
-from sqlalchemy.orm import Session
 from .sql.database import SessionLocal, engine
 from .sql import crud, models, schemas
+from sqlalchemy.orm import Session
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -55,8 +55,10 @@ async def ret() -> dict:
 
 
 @app.post("/auth", tags=["auth"])
-async def authorize(user: UserLoginSchema = Body(...)):
-    if check_user(user):
+async def authorize(user: schemas.UserCreate = Body(...), db: Session = Depends(get_db)):
+    if crud.check_password(telegram=user.telegram,
+                           password=user.password,
+                           db=db):
         return sign_jwt(user.telegram)
     return {
         'status': False,
@@ -65,6 +67,7 @@ async def authorize(user: UserLoginSchema = Body(...)):
 
 
 @app.post("/signup", tags=["user"])
-async def create_user(user: UserSchema = Body(...)):
-    users.append(user) # replace with db call, making sure to hash the password first
+async def create_user(user: schemas.UserCreate = Body(...), db: Session = Depends(get_db)):
+    crud.create_user(db=db,
+                     user=user)
     return sign_jwt(user.telegram)
