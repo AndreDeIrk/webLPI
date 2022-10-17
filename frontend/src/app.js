@@ -1,5 +1,5 @@
-import { Route, Routes, Navigate } from 'react-router-dom'
-import React, {useState} from 'react'
+import { Route, Routes } from 'react-router-dom'
+import React from 'react'
 import Home from './components/Home';
 import About from './components/About';
 import Messages from './components/Messages';
