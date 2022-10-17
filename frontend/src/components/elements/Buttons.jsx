@@ -18,7 +18,7 @@ export class Button extends React.Component {
                  style={{height: this.props.size}}>
                 <button type="button"
                         style={{width: this.props.size, height: this.props.size}}
-                        onClick={this.props.onclick}
+                        onClick={this.props.onClick}
                         disabled={this.props.state !== 'login'}>
                     {this.props.type === 'submit' &&
                     <>
