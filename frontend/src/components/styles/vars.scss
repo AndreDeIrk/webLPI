@@ -3,5 +3,7 @@
 $block-border: 2px solid $main-light;
 $block-radius: 7px;
 
+$btn-radius: 5px;
+
 $transition-transform: transform 0.7s ease-in-out;
-$transition-hover: background 0.1s ease-in-out;
+$transition-hover: background 0.1s ease-in-out, color 0.1s ease-in-out;

@@ -3,3 +3,5 @@
 /node
 /venv
 /backend/sql_app.sqlite
+/.vscode
+**/__PYCACHE__

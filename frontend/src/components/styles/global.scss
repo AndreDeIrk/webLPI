@@ -13,7 +13,7 @@
 h1, h2, h3, h4 {
   color: $main-light;
   padding: 0;
-  margin: 0.5em;
+  margin: 0;
 }
 
 .body {
@@ -31,15 +31,6 @@ h1, h2, h3, h4 {
     align-items: center;
     justify-content: center;
   }
-}
-
-.header-bar {
-  position: sticky;
-  left: 0;
-  right: 0;
-  top: 0;
-  background: $main-blue;
-  border-bottom: 1px solid $main-light;
 }
 
 .login-box {

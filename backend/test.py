@@ -1,13 +1,10 @@
-import hashlib
+import random
 
 if __name__ == '__main__':
-    hasher = hashlib.md5()
-    hasher.update(bytes('hello', encoding='utf-8'))
+    xs = list([str(i) for i in range(1000)])
+    ys = []
+    for x in xs:
+        ys.append(str(random.random() + int(x) / 40))
 
-
-    def hash_password(password: str):
-        hashed_password = hashlib.md5(bytes('hello', encoding='utf-8'))
-        hashed_password.update(bytes(password, encoding='utf-8'))
-        return hashed_password.hexdigest()
-
-    print(hasher.hexdigest(), '\n', hash_password('hello'))
+    print(f"[{', '.join(xs)}]")
+    print(f"[{', '.join(ys)}]")
