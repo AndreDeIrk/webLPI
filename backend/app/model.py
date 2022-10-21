@@ -16,14 +16,18 @@ class UserSchema(BaseModel):
         }
 
 
-class UserLoginSchema(BaseModel):
+class UserLogin(BaseModel):
     telegram: str = Field(...)
     password: str = Field(...)
 
     class Config:
         schema_extra = {
             "example": {
-                "telegram": "and1661",
-                "password": "weakpassword",
+                "telegram": "telegram",
+                "password": "password",
             }
         }
+
+
+class TokenRefresh(BaseModel):
+    refreshToken: str

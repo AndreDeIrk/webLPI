@@ -8,7 +8,7 @@ def verify_jwt(jwt: str) -> bool:
     try:
         payload = decode_jwt(jwt)
     except:
-        payload = None
+        return False
     if payload:
         return True
     return False

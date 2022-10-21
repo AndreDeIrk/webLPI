@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import './styles/global.scss';
 import { Button } from "./elements/Buttons";
+import Request from "./Request";
 // import Gear from "../imgs/gear.svg"
 
 class Login extends React.Component {
@@ -24,16 +25,7 @@ class Login extends React.Component {
     }
 
     async loginUser(credentials) {
-        return fetch('http://localhost:8000/auth', {
-             method: 'POST',
-             headers: {
-                 'Content-Type': 'application/json',
-             },
-             body: JSON.stringify(credentials)
-        })
-        .then(data => data.json()).catch((error) => {
-            return {status: false, detail: error}
-        })
+        return await Request('/auth', JSON.stringify(credentials));
     }
 
     async submitForm(event) {
@@ -50,7 +42,9 @@ class Login extends React.Component {
                 telegram: this.state.username,
                 password: this.state.password
             })
-            this.props.setToken({token: (token.status ? token['access_token'] : "")});
+            this.props.setToken(token.status ? token : {
+                token: ""
+            });
             if (!token.status) {
                 console.log(token.detail);
             }
