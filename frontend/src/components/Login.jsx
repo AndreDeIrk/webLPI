@@ -57,7 +57,7 @@ class Login extends React.Component {
 
     render() {
         return (
-            <div className={"body " + this.props.className}>
+            <div className={"body login " + this.props.className}>
                 <div className={"login-box"}>
                     <form className={"login-form" + (!this.state.isSignIn ? " hide-left" : "")} >
                         <div className="form-item">
