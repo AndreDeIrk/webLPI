@@ -1,11 +1,11 @@
 import React from "react";
 import "./styles/global.scss";
 
-const Home = () => (
+const Settings = () => (
   <div className={"kot"}>
-    <h2>Messages</h2>
-    messages...
+    <h2>Settings</h2>
+    Settings...
   </div>
 );
 
-export default Home;
+export default Settings;

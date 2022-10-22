@@ -16,6 +16,15 @@ h1, h2, h3, h4 {
   margin: 0;
 }
 
+.content {
+  //height: 4000px;
+  width: 100%;
+  background: transparent;
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
 .body {
   font-family: Calibri;
   color: $main-light;

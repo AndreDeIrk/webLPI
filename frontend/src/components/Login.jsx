@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import './styles/global.scss';
-import { Button } from "./elements/Buttons";
+import Button from "./elements/Buttons";
 import Request from "./Request";
 // import Gear from "../imgs/gear.svg"
 
