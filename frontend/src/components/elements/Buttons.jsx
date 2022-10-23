@@ -6,15 +6,15 @@ import WarningImg from '../../imgs/warning.svg'
 const Button = (props) => {
 
     return (
-        <div className={"btn-block " + this.props.className}
-             style={{height: this.props.size}}>
+        <div className={"btn-block " + props.className}
+             style={{height: props.size}}>
             <button type="button"
-                    style={{width: this.props.size, height: this.props.size}}
-                    onClick={this.props.onClick}
-                    disabled={this.props.state !== 'login'}>
-                {this.props.type === 'submit' &&
+                    style={{width: props.size, height: props.size}}
+                    onClick={props.onClick}
+                    disabled={props.state !== 'login'}>
+                {props.type === 'submit' &&
                 <>
-                    {this.props.state === 'loading' &&
+                    {props.state === 'loading' &&
                     <div className={'btn-img'}>
                         <svg className="spinner" viewBox="0 0 50 50">
                             <circle className="path"
@@ -25,11 +25,11 @@ const Button = (props) => {
                             </circle>
                         </svg>
                     </div>}
-                    {this.props.state === 'login'  &&
+                    {props.state === 'login'  &&
                     <img className={'btn-img'}
                          src={LoginImg}
                          alt={LoginImg}/>}
-                    {this.props.state === 'warning'  &&
+                    {props.state === 'warning'  &&
                     <img className={'btn-img'}
                          src={WarningImg}
                          alt={WarningImg}/>}

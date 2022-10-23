@@ -64,22 +64,22 @@ class Login extends React.Component {
                             <div className="form-title">Sign In</div>
                         </div>
                         <div className="form-item">
-                            <div className={'input-gp' + (this.state.username === "" ? ' warning' : "")}>
+                            <div className={'input-gp large' + (this.state.username === "" ? ' warning' : "")}>
                                 {/*<label htmlFor="tg-input" className={"input-label"}>TG:</label>*/}
                                 <input name="username"
                                        id="tg-input"
                                        type="text"
-                                       className={"input"}
+                                       className={"input large"}
                                        placeholder={'Telegram'}
                                        onChange={event => this.setState({username: event.target.value})}/>
                             </div>
                         </div>
                         <div className="form-item">
-                            <div className={'input-gp' + (this.state.password === "" ? ' warning' : "")}>
+                            <div className={'input-gp large' + (this.state.password === "" ? ' warning' : "")}>
                                 <input name="password"
                                        id="pw-input"
                                        type="password"
-                                       className="input"
+                                       className="input large"
                                        placeholder={'Password'}
                                        onChange={event => this.setState({password: event.target.value})}/>
                             </div>
@@ -106,17 +106,17 @@ class Login extends React.Component {
                             <div className="form-title">Sign Up</div>
                         </div>
                         <div className="form-item">
-                            <div className={'input-gp'}>
+                            <div className={'input-gp large grid'}>
                                 <input name="newUsername"
                                        id="tg-input-new"
                                        type="text"
-                                       className={"input" + (!this.state.isInputTg ? " hide-top" : "")}
+                                       className={"input large" + (!this.state.isInputTg ? " hide-top" : "")}
                                        placeholder={'Telegram'}/>
                                 <input id="code"
                                        name="code"
                                        type="text"
                                        value={'0 1 2 3'}
-                                       className={"input" + (this.state.isInputTg ? " hide-bottom" : "")}
+                                       className={"input large" + (this.state.isInputTg ? " hide-bottom" : "")}
                                        disabled/>
                             </div>
                         </div>

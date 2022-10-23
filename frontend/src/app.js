@@ -18,8 +18,7 @@ function App(props) {
     return (
         <div className={"body text " + props.className}>
                 <div className={"header-bar"}>
-                    <Link to="/"
-                          onClick={() => {setPage('/')}}>
+                    <Link to="/" onClick={() => {setPage('/')}}>
                         <button className={"header-btn" + (page === '/' ? " active" : "")}>
                             Home
                         </button>

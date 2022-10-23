@@ -10,12 +10,12 @@
   }
 }
 
-h1, h2, h3, h4 {
-  color: $main-light;
-  padding: 0;
-  margin: 0;
-}
-
+//h1, h2, h3, h4 {
+//  color: $main-light;
+//  padding: 0;
+//  margin: 0;
+//}
+//
 .content {
   //height: 4000px;
   width: 100%;
@@ -35,163 +35,182 @@ h1, h2, h3, h4 {
   min-height: 100%;
   background: $main-blue;
 
-  &.login {
+  &.center {
     display: flex;
     align-items: center;
     justify-content: center;
   }
 }
-
-.login-box {
-  width: 400px;
-  overflow: hidden;
-  background: rgba(0, 0, 0, 0.03);
-  border-radius: 1em;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr;
-}
-
-.login-form {
-  color: $main-light;
-  padding: 1em;
-  width: calc(100% - 2em);
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
-  transition: $transition-transform;
-
-  &.hide-left {
-    transform: translate(-150%, 0);
-  }
-
-  &.hide-right {
-    transform: translate(150%, 0);
-  }
-}
-
-.form-item {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1em;
-  &.last {
-    margin-bottom: 0;
-  }
-
-  &__grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    margin-bottom: 1em;
-
-    &.last {
-      margin-bottom: 0;
-    }
-
-    @for $i from 1 through 4 {
-      & > .center-#{$i} {
-        grid-column: #{7 - $i} / #{7 + $i};
-      }
-      & > .left-#{$i} {
-        grid-column: 1 / #{1 + $i};
-      }
-      & > .right-#{$i} {
-        grid-column: #{13 - $i} / 13;
-      }
-    }
-  }
-}
-
-.input {
-  border: $main-light 2px solid;
-  //border-color: transparent transparent $main-light transparent;
-  border-radius: 5px;
-  color: $main-light;
-  background: transparent;
-  width: 250px;
-  transition: $transition-hover, $transition-transform;
-  text-align: center;
-
-  &:focus {
-    outline: none;
-    background: rgba(0, 0, 0, 0.1);
-  }
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.1);
-  }
-
-  &::placeholder {
-    color: $main-light;
-    font-weight: 300;
-    font-size: 0.7em;
-  }
-}
-.input-label {
-  border: 2px solid transparent;
-  font-weight: 600;
-  text-align: end;
-  width: 50px;
-}
-.input, .input-label {
-  font-family: Calibri;
-  font-size: 1.5em;
-  padding: 5px;
-}
-
-.input-gp {
-  border: $main-light 2px solid;
-  border-radius: 7px;
-  overflow: hidden;
-  display: grid;
-  grid-template-rows: 1fr;
-  transition: border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
-
-  & > .input-label {
-    background-color: $main-light;
-    color: $main-blue;
-  }
-
-  & > .input, & > .input-label {
-    border: transparent 2px solid;
-    grid-row: 1 / 2;
-    grid-column-start: 1;
-  }
-
-  & > .hide-top {
-    transform: translate(0, -60px);
-  }
-  & > .hide-bottom {
-    transform: translate(0, 60px);
-  }
-  &.warning {
-    border-color: $red;
-    background-color: rgba($red, 0.1);
-  }
-}
-
-.form-title {
-  font-size: 2em;
-}
-
-.spinner-img {
-  opacity: 0.2;
-  z-index: 3;
-  position: absolute;
-  right: -12.5%;
-  top: -12.5%;
-  animation: rotate 15s linear infinite;
-}
-
-.btn-link {
-  background: none;
-  border: none;
-  color: $main-light;
-  font-size: 1em;
-  margin: 0;
-  padding: 0;
-  cursor: pointer;
-  transition: all 0.1s ease-in-out;
-
-  &:hover {
-    color: rgba($main-light, 0.7);
-  }
-}
+//
+//.login-box {
+//  width: 400px;
+//  overflow: hidden;
+//  background: rgba(0, 0, 0, 0.03);
+//  border-radius: 1em;
+//  display: grid;
+//  grid-template-columns: 1fr;
+//  grid-template-rows: 1fr;
+//}
+//
+//.login-form {
+//  color: $main-light;
+//  padding: 1em;
+//  width: calc(100% - 2em);
+//  grid-column: 1 / 2;
+//  grid-row: 1 / 2;
+//  transition: $transition-transform;
+//
+//  &.hide-left {
+//    transform: translate(-150%, 0);
+//  }
+//
+//  &.hide-right {
+//    transform: translate(150%, 0);
+//  }
+//}
+//
+//.form-item {
+//  display: flex;
+//  justify-content: center;
+//  margin-bottom: 1em;
+//  &.last {
+//    margin-bottom: 0;
+//  }
+//
+//  &__grid {
+//    display: grid;
+//    grid-template-columns: repeat(12, 1fr);
+//    margin-bottom: 1em;
+//
+//    &.last {
+//      margin-bottom: 0;
+//    }
+//
+//    @for $i from 1 through 4 {
+//      & > .center-#{$i} {
+//        grid-column: #{7 - $i} / #{7 + $i};
+//      }
+//      & > .left-#{$i} {
+//        grid-column: 1 / #{1 + $i};
+//      }
+//      & > .right-#{$i} {
+//        grid-column: #{13 - $i} / 13;
+//      }
+//    }
+//  }
+//}
+//
+//.input {
+//  border: $main-light 2px solid;
+//  //border-color: transparent transparent $main-light transparent;
+//  border-radius: 5px;
+//  color: $main-light;
+//  background: transparent;
+//  transition: $transition-hover, $transition-transform;
+//  text-align: center;
+//
+//  &.large {
+//    width: 250px;
+//  }
+//
+//  &:focus {
+//    outline: none;
+//    background: rgba(0, 0, 0, 0.1);
+//  }
+//
+//  &:hover {
+//    background: rgba(0, 0, 0, 0.1);
+//  }
+//
+//  &::placeholder {
+//    color: $main-light;
+//    font-weight: 300;
+//    font-size: 0.7em;
+//  }
+//}
+//.input-label {
+//  border: 2px solid transparent;
+//  font-weight: 600;
+//  text-align: end;
+//  width: 50px;
+//}
+//.input, .input-label {
+//  font-family: Calibri;
+//  padding: 3px;
+//  &.large {
+//    font-size: 1.5em;
+//    padding: 5px;
+//  }
+//}
+//
+//.input-gp {
+//  border: $main-light 1px solid;
+//  border-radius: 7px;
+//  overflow: hidden;
+//  display: flex;
+//  flex-direction: row;
+//  transition: border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+//
+//  &.grid {
+//    display: grid;
+//    grid-template-rows: 1fr;
+//  }
+//
+//  &.large {
+//    border: $main-light 2px solid;
+//    & > .input, & > .input-label {
+//      grid-row: 1 / 2;
+//      grid-column-start: 1;
+//    }
+//  }
+//
+//  & > .input-label {
+//    background-color: $main-light;
+//    color: $main-blue;
+//  }
+//
+//  & > .input, & > .input-label {
+//    border: transparent 2px solid;
+//    display: flex;
+//    flex-grow: 1;
+//  }
+//
+//  & > .hide-top {
+//    transform: translate(0, -60px);
+//  }
+//  & > .hide-bottom {
+//    transform: translate(0, 60px);
+//  }
+//  &.warning {
+//    border-color: $red;
+//    background-color: rgba($red, 0.1);
+//  }
+//}
+//
+//.form-title {
+//  font-size: 2em;
+//}
+//
+//.spinner-img {
+//  opacity: 0.2;
+//  z-index: 3;
+//  position: absolute;
+//  right: -12.5%;
+//  top: -12.5%;
+//  animation: rotate 15s linear infinite;
+//}
+//
+//.btn-link {
+//  background: none;
+//  border: none;
+//  color: $main-light;
+//  font-size: 1em;
+//  margin: 0;
+//  padding: 0;
+//  cursor: pointer;
+//  transition: all 0.1s ease-in-out;
+//
+//  &:hover {
+//    color: rgba($main-light, 0.7);
+//  }
+//}

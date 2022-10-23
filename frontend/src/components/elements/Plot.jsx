@@ -60,6 +60,22 @@ const MyPlot = (props) => {
                     }
                 }}
             />
+            <div className={'input-gp'}>
+                <label for={'Xaxis'} className={'input-label'}>
+                    X
+                </label>
+                <select id='Xaxis' className={'input'}>
+                    <option>Пункт 1</option>
+                    <option>Пункт 2</option>
+                </select>
+                <label htmlFor={'Yaxis'} className={'input-label'}>
+                    Y
+                </label>
+                <select id='Yaxis' className={'input'}>
+                    <option>Пункт 1</option>
+                    <option>Пункт 2</option>
+                </select>
+            </div>
         </div>
     )
 }

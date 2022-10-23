@@ -1,0 +1,111 @@
+@import './colors';
+@import './vars';
+
+.form-container {
+  overflow: hidden;
+  width: min-content;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+
+  &.dark {
+    border-radius: $block-radius;
+    background: rgba(0, 0, 0, 0.2);
+  }
+}
+
+.form {
+  color: $main-light;
+
+  padding: 0.5em 1em;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+
+  display: flex;
+  flex-direction: column;
+
+  transition: $transition-transform;
+
+  &._center {
+    align-items: center;
+  }
+
+  &._left {
+    align-items: start;
+  }
+
+  &._right {
+    align-items: end;
+  }
+
+  &.hide-left {
+    transform: translate(-110%, 0);
+  }
+
+  &.hide-right {
+    transform: translate(110%, 0);
+  }
+
+  & > * {
+    margin: 0.5em 0;
+  }
+}
+
+.input {
+  min-width: 150px;
+  width: available;
+  border-radius: $btn-radius;
+  border: 1px solid $main-light;
+  background: transparent;
+  color: $main-light;
+  padding: 0.5em;
+  transition: background 0.2s ease-in-out, color 0.2s ease-in-out;
+
+  &._center {
+    text-align: center;
+  }
+
+  &._left {
+    text-align: start;
+  }
+
+  &._right {
+    text-align: end;
+  }
+
+  &:focus {
+    outline: none;
+    background: rgba($main-light, 0.7);
+    color: $main-blue;
+  }
+
+  &::selection {
+    background: $main-blue;
+    color: $main-light;
+  }
+}
+
+.input-label {
+  border-radius: $btn-radius;
+  border: 1px solid $main-light;
+  background: $main-light;
+  color: $main-blue;
+  padding: 0.5em;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: row;
+  border-radius: $btn-radius;
+  border: 1px solid $main-light;
+  background: transparent;
+  color: $main-light;
+  width: min-content;
+  padding: 0;
+
+  & > * {
+    border-radius: 0;
+    border: none;
+  }
+}
