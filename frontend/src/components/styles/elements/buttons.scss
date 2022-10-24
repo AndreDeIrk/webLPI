@@ -1,12 +1,29 @@
 @import '../colors';
 @import '../vars';
 
+.btn-link {
+  border: none;
+  background: none;
+  color: $main-light;
+  font-size: 1.1em;
+
+  padding: 0;
+  
+  cursor: pointer;
+
+  transition: $transition-hover;
+
+  &:hover {
+    color: rgba($main-light, 0.7);
+  }
+}
+
 .btn-block {
    display: flex;
    justify-content: center;
 
   & > button {
-    border: $block-border;
+    border: $btn-border;
     border-radius: $block-radius;
     background: transparent;
     cursor: pointer;

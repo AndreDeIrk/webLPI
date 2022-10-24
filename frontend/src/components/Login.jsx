@@ -9,7 +9,7 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isSignIn: true,
+            isSignIn: false,
             isInputTg: true,
             loginState: 'login',
             username: "-",
@@ -21,7 +21,7 @@ class Login extends React.Component {
 
     async switchForm(event) {
         event.preventDefault();
-        this.setState({isSignIn: !this.state.isSignIn});
+        this.setState({isSignIn: !this.state.isSignIn, isInputTg: true});
     }
 
     async loginUser(credentials) {
@@ -57,89 +57,64 @@ class Login extends React.Component {
 
     render() {
         return (
-            <div className={"body login " + this.props.className}>
-                <div className={"login-box"}>
-                    <form className={"login-form" + (!this.state.isSignIn ? " hide-left" : "")} >
-                        <div className="form-item">
-                            <div className="form-title">Sign In</div>
-                        </div>
-                        <div className="form-item">
-                            <div className={'input-gp large' + (this.state.username === "" ? ' warning' : "")}>
-                                {/*<label htmlFor="tg-input" className={"input-label"}>TG:</label>*/}
-                                <input name="username"
-                                       id="tg-input"
-                                       type="text"
-                                       className={"input large"}
-                                       placeholder={'Telegram'}
-                                       onChange={event => this.setState({username: event.target.value})}/>
-                            </div>
-                        </div>
-                        <div className="form-item">
-                            <div className={'input-gp large' + (this.state.password === "" ? ' warning' : "")}>
-                                <input name="password"
-                                       id="pw-input"
-                                       type="password"
-                                       className="input large"
-                                       placeholder={'Password'}
-                                       onChange={event => this.setState({password: event.target.value})}/>
-                            </div>
-                        </div>
-                        <div className="form-item__grid last">
-                            <Button size={'47px'}
-                                    type={'submit'}
-                                    state={this.state.loginState}
+            <div className={'body ' + this.props.className} data-center>
+                <div className={"switch-container dark"}>
+                    <form data-hide-left={!this.state.isSignIn}
+                          style={{width: '300px'}}
+                          data-align="center">
+                        <h1>Sign In</h1>
+                        <input name="username" type="text" placeholder={'Telegram'}
+                               onChange={event => this.setState({username: event.target.value})}
+                               data-large/>
+                        <input name="password" type="password" placeholder={'Password'}
+                               onChange={event => this.setState({password: event.target.value})}
+                               data-large/>
+                        <div className="row">
+                            <div className="col-3"></div>
+                            <Button size={'47px'} type={'submit'} state={this.state.loginState}
+                                    className='col-6'
                                     onClick={(e) => {
                                         this.submitForm(e);
-                                    }}
-                                    className={'center-1'}/>
-                            <button className={'btn-link right-3'}
+                                    }}/>
+                            <button className={'btn-link col-3'}
                                     onClick={(e) => {
                                         this.switchForm(e);
-                                    }}>
-                                Sign Up
-                            </button>
+                                    }}>Sign Up</button>
                         </div>
                     </form>
 
-                    <form className={"login-form" + (this.state.isSignIn ? " hide-right" : "")} >
-                        <div className="form-item">
-                            <div className="form-title">Sign Up</div>
+                    <form data-hide-right={this.state.isSignIn}
+                          style={{width: '300px'}}
+                          data-align="center">
+                        <h1 className="form-title">Sign Up</h1>
+                        <div className="input-group switch-container" style={{width: '100%'}}>
+                            <input name="newUsername"
+                                   id="tg-input-new"
+                                   type="text"
+                                   data-hide-top={!this.state.isInputTg}
+                                   data-align='center'
+                                   data-large
+                                   placeholder={'Telegram'}
+                                   data-last/>
+                            <input id="code"
+                                   name="code"
+                                   type="text"
+                                   value={'0 1 2 3'}
+                                   data-hide-bottom={this.state.isInputTg}
+                                   data-align='center'
+                                   data-large
+                                   data-last
+                                   disabled/>
                         </div>
-                        <div className="form-item">
-                            <div className={'input-gp large grid'}>
-                                <input name="newUsername"
-                                       id="tg-input-new"
-                                       type="text"
-                                       className={"input large" + (!this.state.isInputTg ? " hide-top" : "")}
-                                       placeholder={'Telegram'}/>
-                                <input id="code"
-                                       name="code"
-                                       type="text"
-                                       value={'0 1 2 3'}
-                                       className={"input large" + (this.state.isInputTg ? " hide-bottom" : "")}
-                                       disabled/>
-                            </div>
-                        </div>
-                        <div className="form-item"
-                             style={{
-                                 marginBottom: "2em",
-                             }}>
-                            <button className={'btn-link right-3'}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        this.setState({isInputTg: !this.state.isInputTg});
-                                    }}>
-                                Get code
-                            </button>
-                        </div>
-                        <div className="form-item last">
-                            <button className={'btn-link right-3'}
-                                    onClick={(e) => {
-                                        this.switchForm(e);
-                                    }}>
-                                Sign In
-                            </button>
-                        </div>
+                        <button className={'btn-link'}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    this.setState({isInputTg: !this.state.isInputTg});
+                                }}>Get code</button>
+                        <button className={'btn-link mt-5'}
+                                onClick={(e) => {
+                                    this.switchForm(e);
+                                }}>Sign In</button>
                     </form>
                 </div>
 
