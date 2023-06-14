@@ -1,0 +1,89 @@
+@import '../colors';
+@import '../vars';
+
+.btn-link {
+  border: none;
+  background: none;
+  color: $main-light;
+  font-size: 1.1em;
+
+  padding: 0;
+  
+  cursor: pointer;
+
+  transition: $transition-hover;
+
+  &:hover {
+    color: rgba($main-light, 0.7);
+  }
+}
+
+.btn-block {
+   display: flex;
+   justify-content: center;
+
+  & > button {
+    border: $btn-border;
+    border-radius: $block-radius;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+
+    display: grid;
+    grid-template-columns: 1fr 70% 1fr;
+    grid-template-rows: 1fr 70% 1fr;
+
+    transition: $transition-hover;
+
+    &:hover {
+      background: rgba($main-light, 0.2);
+      &:disabled {
+        background: transparent;
+        cursor: inherit;
+      }
+    }
+
+    & > .btn-img {
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+    }
+  }
+}
+
+.spinner {
+  animation: rotate 2s linear infinite;
+
+  & > .path {
+    stroke: $main-light;
+    stroke-linecap: round;
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -100;
+    stroke-width: 5px;
+    animation: dash 2s ease-in-out infinite;
+  }
+}
+
+@keyframes rotate {
+  from {
+    rotate: 0;
+  }
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes dash {
+  from {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  to {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
+  }
+}

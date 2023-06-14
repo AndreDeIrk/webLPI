@@ -1,4 +1,4 @@
-from fastapi import Body, FastAPI, Depends, HTTPException
+from fastapi import Body, FastAPI, Depends, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from app.model import UserLogin, UserSchema, TokenRefresh
 from app.auth.auth_handler import sign_jwt, refresh_jwt
@@ -7,6 +7,8 @@ from app.auth.auth_bearer import JWTBearer
 from .sql.database import SessionLocal, engine
 from .sql import crud, models, schemas
 from sqlalchemy.orm import Session
+
+import requests
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -80,3 +82,13 @@ async def create_user(user: schemas.UserCreate = Body(...), db: Session = Depend
     crud.create_user(db=db,
                      user=user)
     return sign_jwt(user.telegram)
+
+@app.post("/html")
+async def get_html(body = Body(...)): 
+    return {"html": requests.get(url=body['url']).text}
+
+
+@app.post("/uploadfile")
+async def get_html(file: UploadFile): 
+    print(file.filename)
+    return {}

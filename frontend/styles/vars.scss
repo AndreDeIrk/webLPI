@@ -1,0 +1,11 @@
+@import './colors';
+
+$block-border: 2px solid $main-light;
+$block-radius: 7px;
+$block-space: 7px;
+
+$btn-radius: 5px;
+$btn-border: 1px solid $main-light;
+
+$transition-transform: transform 0.7s ease-in-out;
+$transition-hover: background 0.1s ease-in-out, color 0.1s ease-in-out;
