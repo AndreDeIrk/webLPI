@@ -14,5 +14,7 @@ setup(
       'pydantic',
       'python-decouple',
       'pyjwt',
+      'requests',
+      'python-multipart',      
    ],
 )

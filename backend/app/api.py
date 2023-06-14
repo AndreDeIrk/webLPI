@@ -1,4 +1,5 @@
-from fastapi import Body, FastAPI, Depends, HTTPException, UploadFile, File
+from fastapi import Body, FastAPI, Depends, HTTPException, UploadFile
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from app.model import UserLogin, UserSchema, TokenRefresh
 from app.auth.auth_handler import sign_jwt, refresh_jwt
@@ -9,6 +10,7 @@ from .sql import crud, models, schemas
 from sqlalchemy.orm import Session
 
 import requests
+import time
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -83,12 +85,71 @@ async def create_user(user: schemas.UserCreate = Body(...), db: Session = Depend
                      user=user)
     return sign_jwt(user.telegram)
 
-@app.post("/html")
+## For CryptoMatch
+
+@app.post("/api/html")
 async def get_html(body = Body(...)): 
+    time.sleep(1)
     return {"html": requests.get(url=body['url']).text}
 
 
-@app.post("/uploadfile")
-async def get_html(file: UploadFile): 
+@app.post("/api/email")
+async def get_html(body = Body(...)): 
+    time.sleep(1)
+    if (body['email'] == 'real@real.real'):
+        return {"exist": True}
+    else: 
+        return {"exist": False}
+
+
+@app.post("/api/registration")
+async def upload_dile(body = Body(...)):
+    time.sleep(1)
+    return {
+        'access_token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4NDYyMDQ4NiwianRpIjoiYTViYTFhNzctMGZmOC00YTRiLWIxM2QtMDNkNzU3ZTJiOGQ1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjI4ZjY4MGQwLTA4NWUtNGJkMy1hMTIwLWEwZWQzMTUwNzU2MSIsIm5iZiI6MTY4NDYyMDQ4NiwiY3NyZiI6IjQwMjc2YTQ1LTkwNjEtNDgyYy1iMWVkLTgwYjk1NDBhMTc2NCIsImV4cCI6MTY4NDYyMTM4Nn0.chcgrYuukfDRH8NykPmqK83vF6OUCXUzG3qaJR8QyMk',
+        'user_id': '28f680d0-085e-4bd3-a120-a0ed31507561',
+    }
+
+
+@app.post("/api/uploadfile")
+async def upload_dile(file: UploadFile): 
     print(file.filename)
+    time.sleep(1)
     return {}
+
+
+@app.get("/api/user/{id}")
+async def get_user(id: str):
+    time.sleep(1)
+    return {
+        'id': 0,
+        'name': "George Santis",
+        'occupation': "Top manager",
+        'experience': "Co-Founder Green World Production, UX Consultant",
+        'nickname': "geo",
+        'location': {
+            'city': "Toronto",
+            'flag': "ca",
+        },
+        'business': 2,
+        'links': {
+            'telegram': "mytg",
+            'twitter': "mytw",
+            'facebook': "",
+            'linkedin': "",
+        },
+        'rating': {
+            'meetings': 13,
+            'recomends': 4,
+            'overall': 5,
+        },
+        'requests': [
+            
+        ],
+    }
+
+
+@app.get("/api/avatar/{id}")
+async def get_user(id: str):
+    time.sleep(2)
+    return FileResponse(path="avatar.png")
