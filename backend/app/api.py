@@ -132,6 +132,7 @@ async def upload_dile(file: UploadFile):
 @app.get("/api/user/{id}")
 async def get_user(id: str, response: Response, request: Request):
     time.sleep(1)
+    print(request)
     if request.cookies.get('access_token_cookie') == acces_cookie:   
         response.headers["Cache-Control"] = "private"
         return {
