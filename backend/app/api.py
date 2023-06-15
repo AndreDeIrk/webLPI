@@ -87,6 +87,9 @@ async def create_user(user: schemas.UserCreate = Body(...), db: Session = Depend
 
 ## For CryptoMatch
 
+acces_cookie = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4NDYyMDQ4NiwianRpIjoiYTViYTFhNzctMGZmOC00YTRiLWIxM2QtMDNkNzU3ZTJiOGQ1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjI4ZjY4MGQwLTA4NWUtNGJkMy1hMTIwLWEwZWQzMTUwNzU2MSIsIm5iZiI6MTY4NDYyMDQ4NiwiY3NyZiI6IjQwMjc2YTQ1LTkwNjEtNDgyYy1iMWVkLTgwYjk1NDBhMTc2NCIsImV4cCI6MTY4NDYyMTM4Nn0.chcgrYuukfDRH8NykPmqK83vF6OUCXUzG3qaJR8QyMk"
+user_id = "28f680d0-085e-4bd3-a120-a0ed31507561"
+
 @app.post("/api/html")
 async def get_html(body = Body(...)): 
     time.sleep(1)
@@ -107,57 +110,64 @@ async def upload_dile(response: Response, request: Request):
     print(await request.json())
     response.set_cookie(
         key='access_token_cookie', 
-        value='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4NDYyMDQ4NiwianRpIjoiYTViYTFhNzctMGZmOC00YTRiLWIxM2QtMDNkNzU3ZTJiOGQ1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjI4ZjY4MGQwLTA4NWUtNGJkMy1hMTIwLWEwZWQzMTUwNzU2MSIsIm5iZiI6MTY4NDYyMDQ4NiwiY3NyZiI6IjQwMjc2YTQ1LTkwNjEtNDgyYy1iMWVkLTgwYjk1NDBhMTc2NCIsImV4cCI6MTY4NDYyMTM4Nn0.chcgrYuukfDRH8NykPmqK83vF6OUCXUzG3qaJR8QyMk',
+        value=acces_cookie,
         samesite='Lax'
     )
     response.set_cookie(
         key='user_id_cookie', 
-        value='28f680d0-085e-4bd3-a120-a0ed31507561',
+        value=user_id,
         samesite='Lax'
     )
     time.sleep(1)
-    return {}
+    return {'msg': True}
 
 
 @app.post("/api/uploadfile")
 async def upload_dile(file: UploadFile): 
     print(file.filename)
     time.sleep(1)
-    return {}
+    return {'msg': True}
 
 
 @app.get("/api/user/{id}")
-async def get_user(id: str):
+async def get_user(id: str, response: Response, request: Request):
     time.sleep(1)
-    return {
-        'id': 0,
-        'name': "George Santis",
-        'occupation': "Top manager",
-        'experience': "Co-Founder Green World Production, UX Consultant",
-        'nickname': "geo",
-        'location': {
-            'city': "Toronto",
-            'flag': "ca",
-        },
-        'business': 2,
-        'links': {
-            'telegram': "mytg",
-            'twitter': "mytw",
-            'facebook': "",
-            'linkedin': "",
-        },
-        'rating': {
-            'meetings': 13,
-            'recomends': 4,
-            'overall': 5,
-        },
-        'requests': [
-            
-        ],
-    }
+    if request.cookies.get('access_token_cookie') == acces_cookie:   
+        response.headers["Cache-Control"] = "private"
+        return {
+            'id': 0,
+            'name': "George Santis",
+            'occupation': "Top manager",
+            'experience': "Co-Founder Green World Production, UX Consultant",
+            'nickname': "geo",
+            'location': {
+                'city': "Toronto",
+                'flag': "ca",
+            },
+            'business': 2,
+            'links': {
+                'telegram': "mytg",
+                'twitter': "mytw",
+                'facebook': "",
+                'linkedin': "",
+            },
+            'rating': {
+                'meetings': 13,
+                'recomends': 4,
+                'overall': 5,
+            },
+            'requests': [
+                
+            ],
+        }
+    else:
+        raise HTTPException(status_code=403, detail="Invalid token")
 
 
-@app.get("/api/avatar/{id}")
-async def get_user(id: str):
-    time.sleep(2)
-    return FileResponse(path="avatar.png")
+@app.post("/api/avatar/{id}")
+async def get_user(id: str, request: Request):
+    if request.cookies.get('access_token_cookie') == acces_cookie:
+        # return FileResponse(path="avatar.jpg", headers={"Cache-Control": "private"})
+        return FileResponse(path="avatar.png", headers={"Cache-Control": "no-store"})
+    else:
+        raise HTTPException(status_code=403, detail="Invalid token")
