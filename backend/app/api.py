@@ -1,5 +1,5 @@
-from fastapi import Body, FastAPI, Depends, HTTPException, UploadFile
-from fastapi.responses import FileResponse
+from fastapi import Body, FastAPI, Depends, HTTPException, UploadFile, Request
+from fastapi.responses import FileResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 from app.model import UserLogin, UserSchema, TokenRefresh
 from app.auth.auth_handler import sign_jwt, refresh_jwt
@@ -103,12 +103,20 @@ async def get_html(body = Body(...)):
 
 
 @app.post("/api/registration")
-async def upload_dile(body = Body(...)):
+async def upload_dile(response: Response, request: Request):
+    print(await request.json())
+    response.set_cookie(
+        key='access_token_cookie', 
+        value='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4NDYyMDQ4NiwianRpIjoiYTViYTFhNzctMGZmOC00YTRiLWIxM2QtMDNkNzU3ZTJiOGQ1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjI4ZjY4MGQwLTA4NWUtNGJkMy1hMTIwLWEwZWQzMTUwNzU2MSIsIm5iZiI6MTY4NDYyMDQ4NiwiY3NyZiI6IjQwMjc2YTQ1LTkwNjEtNDgyYy1iMWVkLTgwYjk1NDBhMTc2NCIsImV4cCI6MTY4NDYyMTM4Nn0.chcgrYuukfDRH8NykPmqK83vF6OUCXUzG3qaJR8QyMk',
+        samesite='Lax'
+    )
+    response.set_cookie(
+        key='user_id_cookie', 
+        value='28f680d0-085e-4bd3-a120-a0ed31507561',
+        samesite='Lax'
+    )
     time.sleep(1)
-    return {
-        'access_token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4NDYyMDQ4NiwianRpIjoiYTViYTFhNzctMGZmOC00YTRiLWIxM2QtMDNkNzU3ZTJiOGQ1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjI4ZjY4MGQwLTA4NWUtNGJkMy1hMTIwLWEwZWQzMTUwNzU2MSIsIm5iZiI6MTY4NDYyMDQ4NiwiY3NyZiI6IjQwMjc2YTQ1LTkwNjEtNDgyYy1iMWVkLTgwYjk1NDBhMTc2NCIsImV4cCI6MTY4NDYyMTM4Nn0.chcgrYuukfDRH8NykPmqK83vF6OUCXUzG3qaJR8QyMk',
-        'user_id': '28f680d0-085e-4bd3-a120-a0ed31507561',
-    }
+    return {}
 
 
 @app.post("/api/uploadfile")
