@@ -44,7 +44,8 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
+    expose_headers=["*"]
 )
 
 
@@ -92,14 +93,22 @@ user_id = "28f680d0-085e-4bd3-a120-a0ed31507561"
 
 @app.post("/api/html")
 async def get_html(body = Body(...)): 
-    time.sleep(1)
     return {"html": requests.get(url=body['url']).text}
 
 
 @app.post("/api/email")
-async def get_html(body = Body(...)): 
-    time.sleep(1)
+async def get_html(response: Response, request: Request): 
+    body = await request.json()
+    print(type(body))
     if (body['email'] == 'real@real.real'):
+        response.set_cookie(
+            key='access_token_cookie', 
+            value=acces_cookie,
+        )
+        response.set_cookie(
+            key='user_id_cookie', 
+            value=user_id,
+        )
         return {"exist": True}
     else: 
         return {"exist": False}
@@ -111,12 +120,10 @@ async def upload_dile(response: Response, request: Request):
     response.set_cookie(
         key='access_token_cookie', 
         value=acces_cookie,
-        samesite='Lax'
     )
     response.set_cookie(
         key='user_id_cookie', 
         value=user_id,
-        samesite='Lax'
     )
     time.sleep(1)
     return {'msg': True}
@@ -125,14 +132,11 @@ async def upload_dile(response: Response, request: Request):
 @app.post("/api/uploadfile")
 async def upload_dile(file: UploadFile): 
     print(file.filename)
-    time.sleep(1)
     return {'msg': True}
 
 
 @app.get("/api/user/{id}")
 async def get_user(id: str, response: Response, request: Request):
-    time.sleep(1)
-    print(request)
     if request.cookies.get('access_token_cookie') == acces_cookie:   
         response.headers["Cache-Control"] = "private"
         return {
