@@ -99,7 +99,6 @@ async def get_html(body = Body(...)):
 @app.post("/api/email")
 async def get_html(response: Response, request: Request): 
     body = await request.json()
-    print(type(body))
     if (body['email'] == 'real@real.real'):
         response.set_cookie(
             key='access_token_cookie', 
@@ -137,7 +136,7 @@ async def upload_dile(file: UploadFile):
 
 @app.get("/api/user/{id}")
 async def get_user(id: str, response: Response, request: Request):
-    if request.cookies.get('access_token_cookie') == acces_cookie:   
+    if id == request.cookies.get('user_id_cookie') and request.cookies.get('access_token_cookie') == acces_cookie:   
         response.headers["Cache-Control"] = "private"
         return {
             'id': 0,
@@ -145,6 +144,7 @@ async def get_user(id: str, response: Response, request: Request):
             'occupation': "Top manager",
             'experience': "Co-Founder Green World Production, UX Consultant",
             'nickname': "geo",
+            'about': "About me",
             'location': {
                 'city': "Toronto",
                 'flag': "ca",
@@ -165,14 +165,44 @@ async def get_user(id: str, response: Response, request: Request):
                 
             ],
         }
+    elif id == 'other_user':
+        return {
+            'id': 0,
+            'name': "Stepan Ivanov",
+            'occupation': "Top manager",
+            'experience': "Co-Founder Green World Production, UX Consultant",
+            'nickname': "stepa",
+            'about': "As a GoLang developer, I want to extend a warm welcome to all of you. I'm excited to be a part of this team and contribute to building robust and efficient applications using Go. Let's collaborate and create amazing solutions together.",
+            'location': {
+                'city': "Sochi",
+                'flag': "ru",
+            },
+            'business': 2,
+            'links': {
+                'telegram': "step",
+                'twitter': "step",
+                'facebook': "step",
+                'linkedin': "step",
+            },
+            'rating': {
+                'meetings': 28,
+                'recomends': 10,
+                'overall': 13,
+            },
+            'requests': [
+                
+            ],
+        }
     else:
         raise HTTPException(status_code=403, detail="Invalid token")
 
 
 @app.post("/api/avatar/{id}")
 async def get_user(id: str, request: Request):
-    if request.cookies.get('access_token_cookie') == acces_cookie:
-        # return FileResponse(path="avatar.jpg", headers={"Cache-Control": "private"})
+    if id == request.cookies.get('user_id_cookie') and request.cookies.get('access_token_cookie') == acces_cookie:
         return FileResponse(path="avatar.png", headers={"Cache-Control": "no-store"})
+    elif id == 'other_user':        
+        return FileResponse(path="avatar.jpg", headers={"Cache-Control": "private"})
     else:
         raise HTTPException(status_code=403, detail="Invalid token")
+
