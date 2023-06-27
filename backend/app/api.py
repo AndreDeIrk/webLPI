@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 
 import requests
 import time
+import json
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -129,8 +130,8 @@ async def upload_dile(response: Response, request: Request):
 
 
 @app.post("/api/uploadfile")
-async def upload_dile(file: UploadFile): 
-    print(file.filename)
+async def upload_dile(file: UploadFile, data = Body(...)):
+    print(file.filename, json.loads(data))
     return {'msg': True}
 
 
