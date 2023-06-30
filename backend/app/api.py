@@ -94,9 +94,19 @@ user_id = "28f680d0-085e-4bd3-a120-a0ed31507561"
 
 
 @app.post("/api/email")
-async def check_email(response: Response, request: Request): 
+async def check_email(request: Request): 
     body = await request.json()
     if (body['email'] == 'real@real.real'):
+        return {"exist": True}
+    else: 
+        return {"exist": False}
+
+
+@app.post("/api/email_authorization_get_token")
+async def confirm_email(request: Request, response: Response): 
+    body = await request.json()
+    if (body['email'] == 'real@real.real') and request.cookies.get('access_token_cookie') == acces_cookie:
+        await time.sleep(5)
         response.set_cookie(
             key='access_token_cookie', 
             value=acces_cookie,
@@ -105,23 +115,13 @@ async def check_email(response: Response, request: Request):
             key='user_id_cookie', 
             value=user_id,
         )
-        return {"exist": True}
-    else: 
-        return {"exist": False}
-
-
-@app.post("/api/email_authorization_get_token")
-async def confirm_email(request: Request): 
-    body = await request.json()
-    if (body['email'] == 'real@real.real') and request.cookies.get('access_token_cookie') == acces_cookie:
-        time.sleep(1)
         return {"status": True}
     else: 
         return {"status": False}
 
 
 @app.post("/api/registration")
-async def registration(response: Response, request: Request):
+async def registration(request: Request, response: Response):
     print(await request.json())
     response.set_cookie(
         key='access_token_cookie', 
@@ -131,7 +131,6 @@ async def registration(response: Response, request: Request):
         key='user_id_cookie', 
         value=user_id,
     )
-    time.sleep(1)
     return {'msg': True}
 
 
@@ -372,10 +371,10 @@ async def get_project_preview(id: str, request: Request):
     
 
 @app.patch("/api/project/{id}")
-async def edit_project(id: str, request: Request, file: UploadFile, data = Body(...)):
+async def edit_project(id: str, request: Request, preview: UploadFile, data = Body(...)):
     print(id)
     if id != 'new':
-        print(file.filename, json.loads(data))
+        print(preview.filename, json.loads(data))
     if request.cookies.get('access_token_cookie') == acces_cookie:   
         return {
             'status': True,
