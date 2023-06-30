@@ -92,13 +92,9 @@ async def create_user(user: schemas.UserCreate = Body(...), db: Session = Depend
 acces_cookie = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4NDYyMDQ4NiwianRpIjoiYTViYTFhNzctMGZmOC00YTRiLWIxM2QtMDNkNzU3ZTJiOGQ1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjI4ZjY4MGQwLTA4NWUtNGJkMy1hMTIwLWEwZWQzMTUwNzU2MSIsIm5iZiI6MTY4NDYyMDQ4NiwiY3NyZiI6IjQwMjc2YTQ1LTkwNjEtNDgyYy1iMWVkLTgwYjk1NDBhMTc2NCIsImV4cCI6MTY4NDYyMTM4Nn0.chcgrYuukfDRH8NykPmqK83vF6OUCXUzG3qaJR8QyMk"
 user_id = "28f680d0-085e-4bd3-a120-a0ed31507561"
 
-@app.post("/api/html")
-async def get_html(body = Body(...)): 
-    return {"html": requests.get(url=body['url']).text}
-
 
 @app.post("/api/email")
-async def get_html(response: Response, request: Request): 
+async def check_email(response: Response, request: Request): 
     body = await request.json()
     if (body['email'] == 'real@real.real'):
         response.set_cookie(
@@ -114,8 +110,18 @@ async def get_html(response: Response, request: Request):
         return {"exist": False}
 
 
+@app.post("/api/email_authorization_get_token")
+async def confirm_email(request: Request): 
+    body = await request.json()
+    if (body['email'] == 'real@real.real') and request.cookies.get('access_token_cookie') == acces_cookie:
+        time.sleep(1)
+        return {"status": True}
+    else: 
+        return {"status": False}
+
+
 @app.post("/api/registration")
-async def upload_dile(response: Response, request: Request):
+async def registration(response: Response, request: Request):
     print(await request.json())
     response.set_cookie(
         key='access_token_cookie', 
@@ -126,12 +132,6 @@ async def upload_dile(response: Response, request: Request):
         value=user_id,
     )
     time.sleep(1)
-    return {'msg': True}
-
-
-@app.post("/api/uploadfile")
-async def upload_dile(file: UploadFile, data = Body(...)):
-    print(file.filename, json.loads(data))
     return {'msg': True}
 
 
@@ -321,12 +321,85 @@ async def get_user(id: str, response: Response, request: Request):
         raise HTTPException(status_code=403, detail="Invalid token")
 
 
+@app.patch("/api/user/{id}")
+async def edit_user(id: str, request: Request, file: UploadFile, data = Body(...)):
+    print(file.filename, json.loads(data))
+    if id == request.cookies.get('user_id_cookie') and request.cookies.get('access_token_cookie') == acces_cookie:   
+        return {
+            'status': True,
+        }
+    else:
+        raise HTTPException(status_code=403, detail="Invalid token")
+
+
 @app.post("/api/avatar/{id}")
-async def get_user(id: str, request: Request):
+async def get_avatar(id: str, request: Request):
     if id == request.cookies.get('user_id_cookie') and request.cookies.get('access_token_cookie') == acces_cookie:
         return FileResponse(path="avatar.png", headers={"Cache-Control": "private"})
     elif id == 'other_user':        
         return FileResponse(path="avatar.jpg", headers={"Cache-Control": "private"})
     else:
         raise HTTPException(status_code=403, detail="Invalid token")
+
+
+@app.patch("/api/card/{id}")
+async def edit_card(id: str, request: Request):     
+    print(id)
+    if id != 'new':
+        print(await request.json())
+    if request.cookies.get('access_token_cookie') == acces_cookie:
+        return {"status": True}
+    else: 
+        raise HTTPException(status_code=403, detail="Invalid token")
+
+
+@app.delete("/api/card/{id}")
+async def delete_card(id: str, request: Request): 
+    print(id)
+    if request.cookies.get('access_token_cookie') == acces_cookie:
+        return {"status": True}
+    else: 
+        raise HTTPException(status_code=403, detail="Invalid token")
+    
+
+@app.post("/api/project/{id}")
+async def get_project_preview(id: str, request: Request):
+    print(id)
+    if request.cookies.get('access_token_cookie') == acces_cookie:
+        return FileResponse(path="project.png", headers={"Cache-Control": "private"})
+    else:
+        raise HTTPException(status_code=403, detail="Invalid token")
+    
+
+@app.patch("/api/project/{id}")
+async def edit_project(id: str, request: Request, file: UploadFile, data = Body(...)):
+    print(id)
+    if id != 'new':
+        print(file.filename, json.loads(data))
+    if request.cookies.get('access_token_cookie') == acces_cookie:   
+        return {
+            'status': True,
+        }
+    else:
+        raise HTTPException(status_code=403, detail="Invalid token")
+    
+
+@app.delete("/api/project/{id}")
+async def delete_project(id: str, request: Request): 
+    print(id)
+    if request.cookies.get('access_token_cookie') == acces_cookie:
+        return {"status": True}
+    else: 
+        raise HTTPException(status_code=403, detail="Invalid token")
+    
+
+@app.post("/api/html")
+async def get_html(body = Body(...)): 
+    return {"html": requests.get(url=body['url']).text}
+
+
+@app.post("/api/uploadfile")
+async def upload_file(file: UploadFile, data = Body(...)):
+    print(file.filename, json.loads(data))
+    return {'msg': True}
 
