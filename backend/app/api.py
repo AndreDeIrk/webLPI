@@ -1,4 +1,4 @@
-from fastapi import Body, FastAPI, Depends, HTTPException, UploadFile, Request
+from fastapi import Body, File, FastAPI, Depends, HTTPException, UploadFile, Request
 from fastapi.responses import FileResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 from app.model import UserLogin, UserSchema, TokenRefresh
@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 import requests
 import time
 import json
+from typing import Union
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -321,8 +322,10 @@ async def get_user(id: str, response: Response, request: Request):
 
 
 @app.patch("/api/user/{id}")
-async def edit_user(id: str, request: Request, file: UploadFile, data = Body(...)):
-    print(file.filename, json.loads(data))
+async def edit_user(id: str, request: Request, avatar: Union[UploadFile, str] = File(...), data = Body(...)):
+    if type(avatar) != str:
+        print(avatar.filename)
+    print(json.loads(data))
     if id == request.cookies.get('user_id_cookie') and request.cookies.get('access_token_cookie') == acces_cookie:   
         return {
             'status': True,
@@ -344,8 +347,7 @@ async def get_avatar(id: str, request: Request):
 @app.patch("/api/card/{id}")
 async def edit_card(id: str, request: Request):     
     print(id)
-    if id != 'new':
-        print(await request.json())
+    print(await request.json())
     if request.cookies.get('access_token_cookie') == acces_cookie:
         return {"status": True}
     else: 
@@ -365,16 +367,16 @@ async def delete_card(id: str, request: Request):
 async def get_project_preview(id: str, request: Request):
     print(id)
     if request.cookies.get('access_token_cookie') == acces_cookie:
-        return FileResponse(path="project.png", headers={"Cache-Control": "private"})
+        return FileResponse(path="project.jpg", headers={"Cache-Control": "private"})
     else:
         raise HTTPException(status_code=403, detail="Invalid token")
     
 
 @app.patch("/api/project/{id}")
-async def edit_project(id: str, request: Request, preview: UploadFile, data = Body(...)):
-    print(id)
-    if id != 'new':
-        print(preview.filename, json.loads(data))
+async def edit_project(id: str, request: Request, preview: Union[UploadFile, str] = File(...), data = Body(...)):
+    print(id, json.loads(data))
+    if  type(preview) != str:
+        print(preview.filename)
     if request.cookies.get('access_token_cookie') == acces_cookie:   
         return {
             'status': True,
@@ -398,7 +400,9 @@ async def get_html(body = Body(...)):
 
 
 @app.post("/api/uploadfile")
-async def upload_file(file: UploadFile, data = Body(...)):
-    print(file.filename, json.loads(data))
+async def upload_file(file: Union[UploadFile, str] = File(...), data = Body(...)):
+    if type(file) != str:
+        print(file.filename) 
+    print(json.loads(data))
     return {'msg': True}
 
