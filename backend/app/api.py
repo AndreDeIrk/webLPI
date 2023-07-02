@@ -20,7 +20,9 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
-    "localhost:3000"
+    "localhost:3000",    
+    "http://localhost:4999",
+    "localhost:4999",
 ]
 
 users = []
