@@ -355,6 +355,18 @@ async def get_avatar(id: str, request: Request):
         return FileResponse(path="avatar.jpg", headers={"Cache-Control": "no-store"})
     else:
         raise HTTPException(status_code=403, detail="Invalid token")
+    
+
+@app.get("/api/card/{id}")
+async def get_user(id: str, response: Response, request: Request):
+    if request.cookies.get('access_token_cookie') == acces_cookie:
+        if len(list(filter(lambda elem: elem['id'] == id, user_profile['requests']))):   
+            response.headers["Cache-Control"] = "private"
+            return user_profile
+        elif len(list(filter(lambda elem: elem['id'] == id, other_user_profile['requests']))):
+            return other_user_profile
+    else:
+        raise HTTPException(status_code=403, detail="Invalid token")
 
 
 @app.patch("/api/card/{id}")
