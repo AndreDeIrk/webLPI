@@ -282,6 +282,17 @@ other_user_profile = {
     ]
 }
 
+
+@app.get("/api/profile/{id}")
+async def profile_id():
+    return {'msg': 'ok'}
+
+
+@app.get("/api/profile")
+async def profile():
+    return {'msg': 'ok'}
+
+
 @app.post("/api/email")
 async def check_email(request: Request): 
     body = await request.json()
@@ -428,7 +439,7 @@ async def get_html(body = Body(...)):
 
 
 @app.get("/api/matches/{id}")
-async def get_user(response: Response, request: Request):
+async def get_matches(response: Response, request: Request):
     if request.cookies.get('access_token_cookie') == acces_cookie:   
         response.headers["Cache-Control"] = "private"
         return {
@@ -437,6 +448,14 @@ async def get_user(response: Response, request: Request):
 
             ],
         }
+    else:
+        raise HTTPException(status_code=403, detail="Invalid token")
+    
+
+@app.post("/api/matches/{id}")
+async def get_matches(request: Request, body = Body(...)):
+    if request.cookies.get('access_token_cookie') == acces_cookie:   
+        print(body)
     else:
         raise HTTPException(status_code=403, detail="Invalid token")
 
