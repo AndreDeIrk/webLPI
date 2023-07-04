@@ -15,6 +15,7 @@ setup(
       'python-decouple',
       'pyjwt',
       'requests',
-      'python-multipart',      
+      'python-multipart',
+      'Pillow',      
    ],
 )

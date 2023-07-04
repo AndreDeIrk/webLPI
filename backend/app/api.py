@@ -390,9 +390,12 @@ async def delete_card(id: str, request: Request):
 
 @app.get("/api/project/{id}")
 async def get_project_preview(id: str, request: Request):
-    print(id)
+    print('projectId:', id)
     if request.cookies.get('access_token_cookie') == acces_cookie:
-        return FileResponse(path="project.jpg", headers={"Cache-Control": "private"})
+        image_bytes_2 = requests.get(url='https://www.sequoia.com/wp-content/uploads/2021/09/Featured-Home.png').content
+        image_bytes = requests.get(url='https://cryptodailycdn.ams3.digitaloceanspaces.com/1920x1080-2-813x457.png').content
+        return Response(content=image_bytes, media_type="image/png", headers={"Cache-Control": "private"})
+        # return FileResponse(path="project.jpg", headers={"Cache-Control": "private"})
     else:
         raise HTTPException(status_code=403, detail="Invalid token")
     
