@@ -136,12 +136,15 @@ user_profile = {
     'requests': [
         {
             'id': '123456789',
+            'type': 0,
             'title': 'Looking for professionals to share experiences',                        
             'style': {
                 'color': 'yellow', 
             },
-            'matchExperience': '',
-            'matchOccupation': 'Together, let\'s strive to build innovative products that cater to our customers\' needs and enhance their experience. Your valuable input and collaboration will help us achieve great heights.',
+            'answers': [
+                '',
+                'Together, let\'s strive to build innovative products that cater to our customers\' needs and enhance their experience. Your valuable input and collaboration will help us achieve great heights.',
+            ],
             'location': 'Toronto',
             'options': "Let's meet online, or in Berlin. My favorite place to meet is Cafe Zelena. Best time — mornings",
             'active': False,
@@ -149,12 +152,15 @@ user_profile = {
         },
         {
             'id': '875123409',
+            'type': 6,
             'title': 'I am looking for experts/consultants',                        
             'style': {
                 'color': 'green', 
             },
-            'matchExperience': 'Dear friends and colleagues, as your product manager at Ostrovok, I warmly welcome each and every one of you to our company.',
-            'matchOccupation': 'Together, let\'s strive to build innovative products that cater to our customers\' needs and enhance their experience. Your valuable input and collaboration will help us achieve great heights.',
+            'answers': [
+                'Dear friends and colleagues, as your product manager at Ostrovok, I warmly welcome each and every one of you to our company.',
+                'Together, let\'s strive to build innovative products that cater to our customers\' needs and enhance their experience. Your valuable input and collaboration will help us achieve great heights.',
+            ],
             'location': 'Toronto',
             'options': "Let's meet online, or in Berlin. My favorite place to meet is Cafe Zelena. Best time — mornings",
             'active': True,
@@ -162,12 +168,109 @@ user_profile = {
         },
         {
             'id': '234556185',
+            'type': 4,
             'title': 'I am looking for investments',                        
             'style': {
                 'color': 'light-blue', 
             },
-            'matchExperience': 'Dear friends and colleagues, as your product manager at Ostrovok, I warmly welcome each and every one of you to our company.',
-            'matchOccupation': '',
+            'answers': [
+                'Dear friends and colleagues, as your product manager at Ostrovok, I warmly welcome each and every one of you to our company.',
+                '',
+            ],
+            'options': "Let's meet online, or in Berlin. My favorite place to meet is Cafe Zelena. Best time — mornings",
+            'active': True,
+            'available': True,
+        },
+        {
+            'id': '133456789',
+            'type': 0,
+            'title': 'Looking for professionals to share experiences',                        
+            'style': {
+                'color': 'yellow', 
+            },
+            'answers': [
+                '',
+                'Together, let\'s strive to build innovative products that cater to our customers\' needs and enhance their experience. Your valuable input and collaboration will help us achieve great heights.',
+            ],
+            'location': 'Toronto',
+            'options': "Let's meet online, or in Berlin. My favorite place to meet is Cafe Zelena. Best time — mornings",
+            'active': False,
+            'available': False,
+        },
+        {
+            'id': '775123409',
+            'type': 6,
+            'title': 'I am looking for experts/consultants',                        
+            'style': {
+                'color': 'green', 
+            },
+            'answers': [
+                'Dear friends and colleagues, as your product manager at Ostrovok, I warmly welcome each and every one of you to our company.',
+                'Together, let\'s strive to build innovative products that cater to our customers\' needs and enhance their experience. Your valuable input and collaboration will help us achieve great heights.',
+            ],
+            'location': 'Toronto',
+            'options': "Let's meet online, or in Berlin. My favorite place to meet is Cafe Zelena. Best time — mornings",
+            'active': True,
+            'available': False,
+        },
+        {
+            'id': '244556185',
+            'type': 4,
+            'title': 'I am looking for investments',                        
+            'style': {
+                'color': 'light-blue', 
+            },
+            'answers': [
+                'Dear friends and colleagues, as your product manager at Ostrovok, I warmly welcome each and every one of you to our company.',
+                '',
+            ],
+            'options': "Let's meet online, or in Berlin. My favorite place to meet is Cafe Zelena. Best time — mornings",
+            'active': True,
+            'available': True,
+        },
+        {
+            'id': '123456783',
+            'type': 0,
+            'title': 'Looking for professionals to share experiences',                        
+            'style': {
+                'color': 'yellow', 
+            },
+            'answers': [
+                '',
+                'Together, let\'s strive to build innovative products that cater to our customers\' needs and enhance their experience. Your valuable input and collaboration will help us achieve great heights.',
+            ],
+            'location': 'Toronto',
+            'options': "Let's meet online, or in Berlin. My favorite place to meet is Cafe Zelena. Best time — mornings",
+            'active': False,
+            'available': False,
+        },
+        {
+            'id': '875122409',
+            'type': 6,
+            'title': 'I am looking for experts/consultants',                        
+            'style': {
+                'color': 'green', 
+            },
+            'answers': [
+                'Dear friends and colleagues, as your product manager at Ostrovok, I warmly welcome each and every one of you to our company.',
+                'Together, let\'s strive to build innovative products that cater to our customers\' needs and enhance their experience. Your valuable input and collaboration will help us achieve great heights.',
+            ],
+            'location': 'Toronto',
+            'options': "Let's meet online, or in Berlin. My favorite place to meet is Cafe Zelena. Best time — mornings",
+            'active': True,
+            'available': False,
+        },
+        {
+            'id': '234856185',
+            'type': 4,
+            'title': 'I am looking for investments',                        
+            'style': {
+                'color': 'light-blue', 
+            },
+            'answers': [
+                'Dear friends and colleagues, as your product manager at Ostrovok, I warmly welcome each and every one of you to our company.',
+                '',
+            ],
             'options': "Let's meet online, or in Berlin. My favorite place to meet is Cafe Zelena. Best time — mornings",
             'active': True,
             'available': True,
@@ -227,12 +330,15 @@ other_user_profile = {
     'requests': [
         {
             'id': '023456789',
+            'type': 0,
             'title': 'Looking for professionals to share experiences',                        
             'style': {
                 'color': 'yellow', 
             },
-            'matchExperience': '',
-            'matchOccupation': 'Together, let\'s strive to build innovative products that cater to our customers\' needs and enhance their experience. Your valuable input and collaboration will help us achieve great heights.',
+            'answers': [
+                '',
+                'Together, let\'s strive to build innovative products that cater to our customers\' needs and enhance their experience. Your valuable input and collaboration will help us achieve great heights.',
+            ],
             'location': 'Toronto',
             'options': "Let's meet online, or in Berlin. My favorite place to meet is Cafe Zelena. Best time — mornings",
             'active': False,
@@ -240,12 +346,15 @@ other_user_profile = {
         },
         {
             'id': '034556185',
+            'type': 6,
             'title': 'I am looking for experts/consultants',                        
             'style': {
                 'color': 'green', 
             },
-            'matchExperience': 'Dear friends and colleagues, as your product manager at Ostrovok, I warmly welcome each and every one of you to our company.',
-            'matchOccupation': 'Together, let\'s strive to build innovative products that cater to our customers\' needs and enhance their experience. Your valuable input and collaboration will help us achieve great heights.',
+            'answers': [
+                'Dear friends and colleagues, as your product manager at Ostrovok, I warmly welcome each and every one of you to our company.',
+                'Together, let\'s strive to build innovative products that cater to our customers\' needs and enhance their experience. Your valuable input and collaboration will help us achieve great heights.',
+            ],
             'location': 'Toronto',
             'options': "Let's meet online, or in Berlin. My favorite place to meet is Cafe Zelena. Best time — mornings",
             'active': True,
@@ -253,12 +362,15 @@ other_user_profile = {
         },
         {
             'id': '076453109',
+            'type': 4,
             'title': 'I am looking for investments',                        
             'style': {
                 'color': 'light-blue', 
             },
-            'matchExperience': 'Dear friends and colleagues, as your product manager at Ostrovok, I warmly welcome each and every one of you to our company.',
-            'matchOccupation': '',
+            'answers': [
+                'Dear friends and colleagues, as your product manager at Ostrovok, I warmly welcome each and every one of you to our company.',
+                '',
+            ],
             'options': "Let's meet online, or in Berlin. My favorite place to meet is Cafe Zelena. Best time — mornings",
             'active': True,
             'available': True,
