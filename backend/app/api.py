@@ -418,7 +418,6 @@ async def check_email(request: Request):
 async def confirm_email(request: Request, response: Response): 
     body = await request.json()
     if (body['email'] == 'real@real.real') and request.cookies.get('access_token_cookie') == acces_cookie:
-        await time.sleep(5)
         response.set_cookie(
             key='access_token_cookie', 
             value=acces_cookie,
