@@ -515,10 +515,15 @@ async def delete_card(id: str, request: Request):
 async def get_project_preview(id: str, request: Request):
     print('projectId:', id)
     if request.cookies.get('access_token_cookie') == acces_cookie:
-        image_bytes_2 = requests.get(url='https://www.sequoia.com/wp-content/uploads/2021/09/Featured-Home.png').content
-        image_bytes = requests.get(url='https://cryptodailycdn.ams3.digitaloceanspaces.com/1920x1080-2-813x457.png').content
-        return Response(content=image_bytes, media_type="image/png", headers={"Cache-Control": "private"})
-        # return FileResponse(path="project.jpg", headers={"Cache-Control": "private"})
+        try:
+            image_bytes_2 = requests.get(url='https://www.sequoia.com/wp-content/uploads/2021/09/Featured-Home.png')
+            image_bytes = requests.get(url='https://cryptodailycdn.ams3.digitaloceanspaces.com/1920x1080-2-813x457.png')
+            if (image_bytes.status_code == 200):
+                return Response(content=image_bytes.content, media_type="image/png", headers={"Cache-Control": "private"})
+            else:
+                raise HTTPException(status_code=image_bytes.status_code, detail="Unable to load preview")
+        except requests.ConnectionError:
+            raise HTTPException(status_code=504, detail='ConnectionError')
     else:
         raise HTTPException(status_code=403, detail="Invalid token")
     
@@ -543,11 +548,6 @@ async def delete_project(id: str, request: Request):
         return {"status": True}
     else: 
         raise HTTPException(status_code=403, detail="Invalid token")
-    
-
-@app.post("/api/html")
-async def get_html(body = Body(...)): 
-    return {"html": requests.get(url=body['url']).text}
 
 
 @app.get("/api/matches/{id}")
@@ -562,6 +562,19 @@ async def get_matches(response: Response, request: Request):
         }
     else:
         raise HTTPException(status_code=403, detail="Invalid token")
+    
+
+@app.post("/api/html")
+async def get_html(body = Body(...)):
+    try: 
+        response = requests.get(url=body['url'])
+        if (response.status_code == 200):
+            print(len(response.text))
+            return {"html": response.text}
+        else:
+            HTTPException(status_code=response.status_code, detail=f"ConnectionError: {body['url']}")
+    except requests.ConnectionError:
+        raise HTTPException(status_code=504, detail='ConnectionError')
     
 
 @app.post("/api/matches/{id}")
