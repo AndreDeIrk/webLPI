@@ -563,6 +563,50 @@ async def get_matches(response: Response, request: Request):
         raise HTTPException(status_code=403, detail="Invalid token")
     
 
+@app.post("/api/matches/{id}")
+async def get_matches(request: Request, body = Body(...)):
+    if request.cookies.get('access_token_cookie') == acces_cookie:   
+        print(body)
+    else:
+        raise HTTPException(status_code=403, detail="Invalid token")
+
+
+@app.get("/api/notifications/{id}")
+async def get_notifications(response: Response, request: Request):
+    if request.cookies.get('access_token_cookie') == acces_cookie:   
+        response.headers["Cache-Control"] = "private"
+        return {
+            'notifications': [
+                {
+                    'id': '0001',
+                    'time': '8 July 15:00',
+                    'type': 0,
+                    'name': 'Sergey Petrov',
+                },
+                {
+                    'id': '0002',
+                    'time': '8 July 14:00',
+                    'type': 1,
+                },
+                {
+                    'id': '0003',
+                    'time': '8 July 13:00',
+                    'type': 2,
+                },
+            ],
+        }
+    else:
+        raise HTTPException(status_code=403, detail="Invalid token")
+    
+
+@app.post("/api/notifications/{id}")
+async def set_notifications(request: Request, body = Body(...)):
+    if request.cookies.get('access_token_cookie') == acces_cookie:   
+        print(body)
+    else:
+        raise HTTPException(status_code=403, detail="Invalid token")
+    
+
 @app.post("/api/html")
 async def get_html(body = Body(...)):
     try: 
@@ -574,14 +618,6 @@ async def get_html(body = Body(...)):
             HTTPException(status_code=response.status_code, detail=f"ConnectionError: {body['url']}")
     except requests.ConnectionError:
         raise HTTPException(status_code=504, detail='ConnectionError')
-    
-
-@app.post("/api/matches/{id}")
-async def get_matches(request: Request, body = Body(...)):
-    if request.cookies.get('access_token_cookie') == acces_cookie:   
-        print(body)
-    else:
-        raise HTTPException(status_code=403, detail="Invalid token")
 
 
 @app.post("/api/uploadfile")
