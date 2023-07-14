@@ -556,7 +556,10 @@ async def get_matches(response: Response, request: Request):
         return {
             'week': other_user_profile,
             'previous': [
-
+                other_user_profile,
+                other_user_profile,
+                other_user_profile,
+                other_user_profile,
             ],
         }
     else:
@@ -567,6 +570,17 @@ async def get_matches(response: Response, request: Request):
 async def get_matches(request: Request, body = Body(...)):
     if request.cookies.get('access_token_cookie') == acces_cookie:   
         print(body)
+    else:
+        raise HTTPException(status_code=403, detail="Invalid token")
+
+
+@app.get("/api/feed/{id}")
+async def get_feed(response: Response, request: Request):
+    if request.cookies.get('access_token_cookie') == acces_cookie:   
+        response.headers["Cache-Control"] = "private"
+        return {
+            'feed': [other_user_profile] * 3,
+        }
     else:
         raise HTTPException(status_code=403, detail="Invalid token")
 
