@@ -510,7 +510,7 @@ async def delete_card(id: str, request: Request):
         raise HTTPException(status_code=403, detail="Invalid token")
     
 
-@app.get("/api/project/{id}")
+@app.get("/api/project/{id}/image")
 async def get_project_preview(id: str, request: Request):
     print('projectId:', id)
     if request.cookies.get('access_token_cookie') == acces_cookie:
