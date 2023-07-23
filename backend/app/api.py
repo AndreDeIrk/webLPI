@@ -1,4 +1,4 @@
-from fastapi import Body, File, FastAPI, Depends, HTTPException, UploadFile, Request
+from fastapi import Body, File, FastAPI, Depends, HTTPException, UploadFile, Request, WebSocket
 from fastapi.responses import FileResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 from app.model import UserLogin, UserSchema, TokenRefresh
@@ -408,7 +408,7 @@ async def profile():
 @app.post("/api/email")
 async def check_email(request: Request): 
     body = await request.json()
-    if (body['email'] == 'real@real.real'):
+    if (body['email'] == 'test@test.test'):
         return {"exist": True}
     else: 
         return {"exist": False}
@@ -416,11 +416,13 @@ async def check_email(request: Request):
 
 @app.post("/api/email_authorization_get_token")
 async def confirm_email(request: Request, response: Response): 
-    body = await request.json()
-    if (body['email'] == 'real@real.real') and request.cookies.get('access_token_cookie') == acces_cookie:
+    # body = await request.json()
+    time.sleep(3)
+    if True:
         response.set_cookie(
             key='access_token_cookie', 
             value=acces_cookie,
+            httponly=True,
         )
         response.set_cookie(
             key='user_id_cookie', 
@@ -429,20 +431,6 @@ async def confirm_email(request: Request, response: Response):
         return {"status": True}
     else: 
         return {"status": False}
-
-
-@app.post("/api/registration")
-async def registration(request: Request, response: Response):
-    print(await request.json())
-    response.set_cookie(
-        key='access_token_cookie', 
-        value=acces_cookie,
-    )
-    response.set_cookie(
-        key='user_id_cookie', 
-        value=user_id,
-    )
-    return {'msg': True}
 
 
 @app.get("/api/user/{id}")
@@ -583,42 +571,6 @@ async def get_feed(response: Response, request: Request):
         }
     else:
         raise HTTPException(status_code=403, detail="Invalid token")
-
-
-@app.get("/api/notifications/{id}")
-async def get_notifications(response: Response, request: Request):
-    if request.cookies.get('access_token_cookie') == acces_cookie:   
-        response.headers["Cache-Control"] = "private"
-        return {
-            'notifications': [
-                {
-                    'id': '0001',
-                    'time': '8 July 15:00',
-                    'type': 0,
-                    'name': 'Sergey Petrov',
-                },
-                {
-                    'id': '0002',
-                    'time': '8 July 14:00',
-                    'type': 1,
-                },
-                {
-                    'id': '0003',
-                    'time': '8 July 13:00',
-                    'type': 2,
-                },
-            ],
-        }
-    else:
-        raise HTTPException(status_code=403, detail="Invalid token")
-    
-
-@app.post("/api/notifications/{id}")
-async def set_notifications(request: Request, body = Body(...)):
-    if request.cookies.get('access_token_cookie') == acces_cookie:   
-        print(body)
-    else:
-        raise HTTPException(status_code=403, detail="Invalid token")
     
 
 @app.post("/api/html")
@@ -640,4 +592,27 @@ async def upload_file(file: Union[UploadFile, str] = File(...), data = Body(...)
         print(file.filename) 
     print(json.loads(data))
     return {'msg': True}
+
+
+class ConnectionManager:
+    def __init__(self):
+        self.connections: List[WebSocket] = []
+
+    async def connect(self, websocket: WebSocket):
+        await websocket.accept()
+        self.connections.append(websocket)
+
+    async def broadcast(self, data: str):
+        for connection in self.connections:
+            await connection.send_text(data)
+
+
+manager = ConnectionManager()
+
+@app.websocket("/ws/{id}")
+async def websocket_endpoint(websocket: WebSocket, id: str):
+    await manager.connect(websocket)
+    while True:
+        data = await websocket.receive_text()
+        await manager.broadcast(f"Client {id}: {data}")
 
