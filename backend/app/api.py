@@ -428,7 +428,10 @@ async def confirm_email(request: Request, response: Response):
             key='user_id_cookie', 
             value=user_id,
         )
-        return {"status": True}
+        return {
+            "status": True,
+            "id": user_id,
+        }
     else: 
         return {"status": False}
 
@@ -615,7 +618,7 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
-@app.websocket("/ws/{id}")
+@app.websocket("/websocket/{id}")
 async def websocket_endpoint(websocket: WebSocket, id: str, cookie=Cookie(default=None)):
     print(cookie)
     await manager.connect(websocket)
