@@ -1,4 +1,4 @@
-from fastapi import Body, File, FastAPI, Depends, HTTPException, UploadFile, Request, WebSocket
+from fastapi import Body, File, FastAPI, Depends, HTTPException, UploadFile, Request, Cookie, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 from app.model import UserLogin, UserSchema, TokenRefresh
@@ -602,17 +602,28 @@ class ConnectionManager:
         await websocket.accept()
         self.connections.append(websocket)
 
-    async def broadcast(self, data: str):
+    def disconnect(self, websocket: WebSocket):
+        self.connections.remove(websocket)
+
+    async def send_personal_message(self, data: dict, websocket: WebSocket):
+        await websocket.send_json(data)
+
+    async def broadcast(self, data: dict):
         for connection in self.connections:
-            await connection.send_text(data)
+            await connection.send_json(data)
 
 
 manager = ConnectionManager()
 
 @app.websocket("/ws/{id}")
-async def websocket_endpoint(websocket: WebSocket, id: str):
+async def websocket_endpoint(websocket: WebSocket, id: str, cookie=Cookie(default=None)):
+    print(cookie)
     await manager.connect(websocket)
-    while True:
-        data = await websocket.receive_text()
-        await manager.broadcast(f"Client {id}: {data}")
-
+    try:
+        while True:
+            data = await websocket.receive_text()
+            print(f'user: {id}\tmessage: {data}')
+            await manager.broadcast({'id': user_id, 'data': data})
+    except WebSocketDisconnect:
+        manager.disconnect(websocket)
+        await manager.broadcast({'id': 'other_user', 'data': 'Left'})
