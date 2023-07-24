@@ -10,6 +10,7 @@ setup(
    install_requires=[
       'uvicorn',
       'fastapi',
+      'websockets',
       'sqlalchemy',
       'pydantic',
       'python-decouple',
