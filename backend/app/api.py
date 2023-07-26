@@ -492,6 +492,15 @@ async def edit_card(id: str, request: Request):
         raise HTTPException(status_code=403, detail="Invalid token")
 
 
+@app.put("/api/card/new")
+async def edit_card(request: Request):     
+    print(await request.json())
+    if request.cookies.get('access_token_cookie') == acces_cookie:
+        return {"status": True}
+    else: 
+        raise HTTPException(status_code=403, detail="Invalid token")
+
+
 @app.delete("/api/card/{id}")
 async def delete_card(id: str, request: Request): 
     print(id)
@@ -619,14 +628,13 @@ class ConnectionManager:
 manager = ConnectionManager()
 
 @app.websocket("/websocket/{id}")
-async def websocket_endpoint(websocket: WebSocket, id: str, cookie=Cookie(default=None)):
-    print(cookie)
+async def websocket_endpoint(websocket: WebSocket, id: str):
     await manager.connect(websocket)
     try:
         while True:
             data = await websocket.receive_text()
-            print(f'user: {id}\tmessage: {data}')
-            await manager.broadcast({'id': user_id, 'data': data})
+            print(f'from: {websocket.cookies["user_id_cookie"]}\tto: {id}\tmessage: {data}')
+            await manager.broadcast({'id': websocket.cookies['user_id_cookie'], 'data': data})
     except WebSocketDisconnect:
         manager.disconnect(websocket)
-        await manager.broadcast({'id': 'other_user', 'data': 'Left'})
+        await manager.broadcast({'id': websocket.cookies['user_id_cookie'], 'data': 'Left'})
