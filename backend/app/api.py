@@ -448,10 +448,12 @@ async def get_user(id: str, response: Response, request: Request):
 
 
 @app.patch("/api/user/{id}")
-async def edit_user(id: str, request: Request, avatar: Union[UploadFile, str] = File(...), data = Body(...)):
-    if type(avatar) != str:
-        print(avatar.filename)
-    print(json.loads(data))
+# async def edit_user(id: str, request: Request, avatar: Union[UploadFile, str, None] = File(...), data = Body(...)):    
+async def edit_user(id: str, request: Request, body = Body(...)):
+    # if type(avatar) != str:
+    #     print(avatar.filename)
+    # print(json.loads(data))
+    print(body)
     if id == request.cookies.get('user_id_cookie') and request.cookies.get('access_token_cookie') == acces_cookie:   
         return {
             'status': True,
