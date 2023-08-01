@@ -585,7 +585,19 @@ async def get_feed(response: Response, request: Request):
         }
     else:
         raise HTTPException(status_code=403, detail="Invalid token")
-    
+   
+
+@app.get("/api/people/{id}")
+async def get_feed(response: Response, request: Request):
+    if request.cookies.get('access_token_cookie') == acces_cookie:   
+        response.headers["Cache-Control"] = "private"
+        return {
+            'best': [other_user_profile] * 5,
+            'new': [other_user_profile] * 9,
+        }
+    else:
+        raise HTTPException(status_code=403, detail="Invalid token")
+
 
 @app.post("/api/html")
 async def get_html(body = Body(...)):
