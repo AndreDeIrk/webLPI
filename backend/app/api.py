@@ -135,6 +135,22 @@ user_profile = {
     },
     'requests': [
         {
+            'id': '076453760',
+            'type': 4,
+            'title': 'I am looking for investments',                        
+            'style': {
+                'color': 'light-blue', 
+            },
+            'answers': [
+                '',
+                '',
+                '',
+            ],
+            'options': "Let's meet online, or in Berlin. My favorite place to meet is Cafe Zelena. Best time — mornings",
+            'active': True,
+            'available': True,
+        },
+        {
             'id': '123456789',
             'type': 0,
             'title': 'Looking for professionals to share experiences',                        
@@ -370,6 +386,19 @@ other_user_profile = {
             'answers': [
                 'Dear friends and colleagues, as your product manager at Ostrovok, I warmly welcome each and every one of you to our company.',
                 '',
+            ],
+            'options': "Let's meet online, or in Berlin. My favorite place to meet is Cafe Zelena. Best time — mornings",
+            'active': True,
+            'available': True,
+        },
+        {
+            'id': '076453762',
+            'type': 4,
+            'title': 'I am looking for investments',                        
+            'style': {
+                'color': 'light-blue', 
+            },
+            'answers': [
             ],
             'options': "Let's meet online, or in Berlin. My favorite place to meet is Cafe Zelena. Best time — mornings",
             'active': True,
