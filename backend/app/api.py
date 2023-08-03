@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 
 import requests
 import time
+from datetime import datetime
 import json
 from typing import Union
 
@@ -628,6 +629,61 @@ async def get_feed(response: Response, request: Request):
         raise HTTPException(status_code=403, detail="Invalid token")
 
 
+@app.get("/api/messages/{id}")
+async def get_messages(response: Response, request: Request):
+    if request.cookies.get('access_token_cookie') == acces_cookie:   
+        response.headers["Cache-Control"] = "private"
+        return [
+            {
+                "id": "3f730d23-6472-4e8a-aac1-d06e99776898",
+                "content": "Hello, this is a new message.",
+                "is_read": False,
+                "from_user": "other_user",
+                "chat_id": "3f730d23-6472-4e8a-aac1-d06e99776898",
+                "created_at": "2023-08-02T12:34:56",
+                "edited_at": "2023-08-02T12:34:56"
+            },
+            {
+                "id": "3f730d23-6472-4e8a-aac1-d06e99776899",
+                "content": "Hello, this is a new message.",
+                "is_read": True,
+                "from_user": "28f680d0-085e-4bd3-a120-a0ed31507561",
+                "chat_id": "3f730d23-6472-4e8a-aac1-d06e99776898",
+                "created_at": "2023-08-02T12:34:56",
+                "edited_at": "2023-08-02T12:34:56"
+            },
+            {
+                "id": "3f730d23-6472-4e8a-aac1-d06e99776897",
+                "content": "Hello, this is a new message.",
+                "is_read": False,
+                "from_user": "other_user",
+                "chat_id": "3f730d23-6472-4e8a-aac1-d06e99776898",
+                "created_at": "2023-08-03T12:34:56",
+                "edited_at": "2023-08-03T12:34:56"
+            },
+        ]
+    else:
+        raise HTTPException(status_code=403, detail="Invalid token")
+
+
+@app.get("/api/chats/{id}")
+async def get_chats(response: Response, request: Request):
+    if request.cookies.get('access_token_cookie') == acces_cookie:   
+        response.headers["Cache-Control"] = "private"
+        return [
+            {
+                "id": "3f730d23-6472-4e8a-aac1-d06e99776898",
+                "with_user": "other_user",
+                "name": "Tim Burns",
+                "last_message": "Hello! When are we going to meet?",
+                "created_at": "2023-08-02T12:34:56",
+                "unread": 5,
+            },
+        ]
+    else:
+        raise HTTPException(status_code=403, detail="Invalid token")
+
+
 @app.post("/api/html")
 async def get_html(body = Body(...)):
     try: 
@@ -639,6 +695,8 @@ async def get_html(body = Body(...)):
             HTTPException(status_code=response.status_code, detail=f"ConnectionError: {body['url']}")
     except requests.ConnectionError:
         raise HTTPException(status_code=504, detail='ConnectionError')
+    except requests.exceptions.InvalidURL:
+        raise HTTPException(status_code=422, detail='Invalid URL')
 
 
 @app.post("/api/uploadfile")
@@ -670,14 +728,20 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
-@app.websocket("/websocket/{id}")
+@app.websocket("/api/chat/{id}")
 async def websocket_endpoint(websocket: WebSocket, id: str):
     await manager.connect(websocket)
     try:
         while True:
-            data = await websocket.receive_text()
-            print(f'from: {websocket.cookies["user_id_cookie"]}\tto: {id}\tmessage: {data}')
-            await manager.broadcast({'id': websocket.cookies['user_id_cookie'], 'data': data})
+            data = json.loads(await websocket.receive_text())
+            print(f'from: {websocket.cookies["user_id_cookie"]}\tto: {id}\tmessage: {data["message"]}')
+            await manager.broadcast({'event_type': 'send', 'message': {
+                "id": '000',
+                "content": data["message"],
+                "is_read": False,
+                "chat_id": id,
+                "created_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                "edited_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+            }})
     except WebSocketDisconnect:
         manager.disconnect(websocket)
-        await manager.broadcast({'id': websocket.cookies['user_id_cookie'], 'data': 'Left'})
