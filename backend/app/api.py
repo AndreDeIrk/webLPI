@@ -728,20 +728,42 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
-@app.websocket("/api/chat/{id}")
+@app.websocket("/chat/{id}")
 async def websocket_endpoint(websocket: WebSocket, id: str):
     await manager.connect(websocket)
     try:
         while True:
-            data = json.loads(await websocket.receive_text())
-            print(f'from: {websocket.cookies["user_id_cookie"]}\tto: {id}\tmessage: {data["message"]}')
-            await manager.broadcast({'event_type': 'send', 'message': {
-                "id": '000',
-                "content": data["message"],
-                "is_read": False,
-                "chat_id": id,
-                "created_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
-                "edited_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
-            }})
+            data = await websocket.receive_json()
+            print(data)
+            # print(f'from: {websocket.cookies["user_id_cookie"]}\tto: {id}\tmessage: {data["message"]}')
+            if (data['event_type'] == 'send'):
+                await manager.broadcast({'event_type': 'send', 'message': {
+                    "id": '000',
+                    "content": data["message"],
+                    "from_user": websocket.cookies["user_id_cookie"],
+                    "is_read": False,
+                    "chat_id": id,
+                    "created_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                    "edited_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                }})
+            if (data['event_type'] == 'delete'):
+                await manager.broadcast({
+                    'event_type': 'delete', 
+                    'message_id': '000',
+                    "from_user": websocket.cookies["user_id_cookie"],
+                })
+            if (data['event_type'] == 'edit'):
+                await manager.broadcast({
+                    'event_type': 'edit', 
+                    'edited_message': {
+                        "id": '000',
+                        "content": data["message"],
+                        "from_user": websocket.cookies["user_id_cookie"],
+                        "is_read": False,
+                        "chat_id": id,
+                        "created_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                        "edited_at": datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
+                    }
+                })
     except WebSocketDisconnect:
         manager.disconnect(websocket)
